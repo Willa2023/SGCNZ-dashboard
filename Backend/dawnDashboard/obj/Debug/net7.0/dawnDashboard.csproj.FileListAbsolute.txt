@@ -31,3 +31,4 @@
 /Users/tituslambert-lane/Desktop/MSwDev/SGCNZ-dashboard/Backend/dawnDashboard/obj/Debug/net7.0/dawnDashboard.pdb
 /Users/tituslambert-lane/Desktop/MSwDev/SGCNZ-dashboard/Backend/dawnDashboard/obj/Debug/net7.0/dawnDashboard.genruntimeconfig.cache
 /Users/tituslambert-lane/Desktop/MSwDev/SGCNZ-dashboard/Backend/dawnDashboard/obj/Debug/net7.0/ref/dawnDashboard.dll
+/Users/tituslambert-lane/Desktop/MSwDev/SGCNZ-dashboard/Backend/dawnDashboard/obj/Debug/net7.0/dawnDashboard.sourcelink.json

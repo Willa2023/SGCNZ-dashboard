@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("dawnDashboard")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37d86350f1c1303fdbe17fdb518a068e226ec82a")]
 [assembly: System.Reflection.AssemblyProductAttribute("dawnDashboard")]
 [assembly: System.Reflection.AssemblyTitleAttribute("dawnDashboard")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
