@@ -6,7 +6,7 @@ import EventTable from "./Components/EventTable";
 function App() {
   return (
     <div>
-      <div className="datePicker">
+    <div className="datePicker">
       <span>
         Choose Start Date: <MyDatePicker />
       </span>
@@ -21,5 +21,4 @@ function App() {
 
   );
 }
-
 export default App;
