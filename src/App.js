@@ -4,7 +4,7 @@ import MyDatePicker from "./Components/MyDatePicker";
 
 function App() {
   return (
-    <div className="App">
+    <div className="datePicker">
       <span>
         Choose Start Date: <MyDatePicker />
       </span>
