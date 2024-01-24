@@ -19,7 +19,7 @@ const EventTable = () => {
           <th>City</th>
           <th>Contact</th>
           <th>Notes</th>
-          <th>Edit & Delete</th>
+          <th>Management</th>
         </tr>
       </thead>
       <tbody>
