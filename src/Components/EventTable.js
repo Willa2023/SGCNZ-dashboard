@@ -29,10 +29,10 @@ const EventTable = () => {
     <div>
       <h2>Event List</h2>
       <Link to="/edit">
-        <button>Add Event</button>
+        <button>Add Event</button> {/* Implement onClick handler */}
       </Link>
       <button>Upload Spreadsheet File</button> {/* Implement onClick handler */}
-      <table>
+      <table className="EventTableMainTable">
         <thead>
           <tr>
             <th>Start Date</th>
