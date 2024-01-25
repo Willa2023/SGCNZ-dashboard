@@ -25,6 +25,10 @@ const events = [
 
 const EventTable = () => {
   return (
+    <div>
+    <h2>Event List</h2>
+    <button>Add Event</button> {/* Implement onClick handler */}
+    <button>Upload Spreadsheet File</button> {/* Implement onClick handler */}
     <table>
       <thead>
         <tr>
@@ -56,6 +60,7 @@ const EventTable = () => {
         ))}
       </tbody>
     </table>
+    </div>
   );
 };
 
