@@ -1,9 +1,25 @@
-import React from 'react';
+import React from "react";
 
 // Dummy data - you would replace this with real data passed in via props
 const events = [
-  { startDate: '19 May', endDate: '20 May', what: 'Event1', venue: 'Wellington Club or ZOOM', city: 'Wellington', contact: 'Ting', notes: 'note vvvvvvv' },
-  { startDate: '18 May', endDate: '19 May', what: 'Event2', venue: 'Venues Nationwide', city: 'All NZ', contact: 'Zhenzhen', notes: 'uigugufufu' },
+  {
+    startDate: "19 May",
+    endDate: "20 May",
+    what: "Event1",
+    venue: "Wellington Club or ZOOM",
+    city: "Wellington",
+    contact: "Ting",
+    notes: "note vvvvvvv",
+  },
+  {
+    startDate: "18 May",
+    endDate: "19 May",
+    what: "Event2",
+    venue: "Venues Nationwide",
+    city: "All NZ",
+    contact: "Zhenzhen",
+    notes: "uigugufufu",
+  },
   // ... more events
 ];
 
