@@ -27,42 +27,44 @@ const events = [
 const EventTable = () => {
   return (
     <div>
-    <h2>Event List</h2>
-    <button>Add Event</button> {/* Implement onClick handler */}
-    <button>Upload Spreadsheet File</button> {/* Implement onClick handler */}
-    <table>
-      <thead>
-        <tr>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>What</th>
-          <th>Venue</th>
-          <th>City</th>
-          <th>Contact</th>
-          <th>Notes</th>
-          <th>Edit & Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        {events.map((event, index) => (
-          <tr key={index}>
-            <td>{event.startDate}</td>
-            <td>{event.endDate}</td>
-            <td>{event.what}</td>
-            <td>{event.venue}</td>
-            <td>{event.city}</td>
-            <td>{event.contact}</td>
-            <td>{event.notes}</td>
-            <td>
-              <Link to="/edit">
-                <button>Edit</button>
-              </Link>
-              <button>Delete</button>
-            </td>
+      <h2>Event List</h2>
+      <Link to="/edit">
+        <button>Add Event</button>
+      </Link>
+      <button>Upload Spreadsheet File</button> {/* Implement onClick handler */}
+      <table>
+        <thead>
+          <tr>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>What</th>
+            <th>Venue</th>
+            <th>City</th>
+            <th>Contact</th>
+            <th>Notes</th>
+            <th>Edit & Delete</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {events.map((event, index) => (
+            <tr key={index}>
+              <td>{event.startDate}</td>
+              <td>{event.endDate}</td>
+              <td>{event.what}</td>
+              <td>{event.venue}</td>
+              <td>{event.city}</td>
+              <td>{event.contact}</td>
+              <td>{event.notes}</td>
+              <td>
+                <Link to="/edit">
+                  <button>Edit</button>
+                </Link>
+                <button>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

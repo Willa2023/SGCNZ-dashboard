@@ -7,10 +7,6 @@ export default function NavBar() {
       <Link to="/">
         <button>Event Page</button>
       </Link>
-
-      <Link to="/add">
-        <button>Add Page</button>
-      </Link>
     </div>
   );
 }

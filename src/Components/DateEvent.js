@@ -11,6 +11,9 @@ export default function DateEvent() {
         <span>
           Choose End Date: <MyDatePicker />
         </span>
+        <span>
+          <button>Search</button>
+        </span>
       </div>
       <div>
         <EventTable />
