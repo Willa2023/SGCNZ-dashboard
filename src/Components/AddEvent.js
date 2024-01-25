@@ -4,6 +4,7 @@ const AddEventForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     startDate: '',
     endDate: '',
+    time:'',
     what: '',
     venue: '',
     city: '',
@@ -23,6 +24,7 @@ const AddEventForm = ({ onSubmit }) => {
     setFormData({
       startDate: '',
       endDate: '',
+      time:'',
       what: '',
       venue: '',
       city: '',
@@ -48,6 +50,16 @@ const AddEventForm = ({ onSubmit }) => {
           type="date"
           name="endDate"
           value={formData.endDate}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Time
+        <input
+          type="text"
+          name="time"
+          placeholder="Placeholder"
+          value={formData.time}
           onChange={handleChange}
         />
       </label>

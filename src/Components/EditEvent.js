@@ -34,6 +34,16 @@ const EditEventForm = ({ onSubmit, initialData }) => {
         />
       </label>
       <label>
+        Time
+        <input
+          type="text"
+          name="time"
+          placeholder="Placeholder"
+          value={formData.time}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
         What
         <input
           type="text"
@@ -92,6 +102,7 @@ EditEventForm.defaultProps = {
   initialData: {
     startDate: '',
     endDate: '',
+    time:'',
     what: '',
     venue: '',
     city: '',
