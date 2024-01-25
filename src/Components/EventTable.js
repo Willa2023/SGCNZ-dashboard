@@ -30,7 +30,7 @@ const EventTable = () => {
     <h2>Event List</h2>
     <button>Add Event</button> {/* Implement onClick handler */}
     <button>Upload Spreadsheet File</button> {/* Implement onClick handler */}
-    <table>
+    <table className="EventTableMainTable">
       <thead>
         <tr>
           <th>Start Date</th>
