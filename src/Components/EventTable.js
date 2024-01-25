@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // Dummy data - you would replace this with real data passed in via props
 const events = [
@@ -49,7 +50,9 @@ const EventTable = () => {
             <td>{event.contact}</td>
             <td>{event.notes}</td>
             <td>
-              <button>Edit</button>
+              <Link to="/edit">
+                <button>Edit</button>
+              </Link>
               <button>Delete</button>
             </td>
           </tr>
