@@ -1,49 +1,23 @@
-import logo from "./logo.svg";
 import "./App.css";
-import MyDatePicker from "./Components/MyDatePicker";
-import EventTable from "./Components/EventTable";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import DateEvent from "./Components/DateEvent";
+import AddEventForm from "./Components/AddEvent";
+import EditEventForm from "./Components/EditEvent";
+import NavBar from "./Components/NavBar";
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <NavBar />
         <Routes>
-          {/* Define your routes here */}
-          <Route path="/" element={<Event />} />
-          <Route path="/edit" element={<EditInfo />} />
-          <Route path="/add" element={<AddInfo />} />
+          <Route path="/" element={<DateEvent />} />
+          <Route path="/edit" element={<EditEventForm />} />
+          <Route path="/add" element={<AddEventForm />} />
         </Routes>
       </div>
     </Router>
   );
-}
-
-// Define components for each route
-function Event() {
-  return (
-    <div>
-      <div className="datePicker">
-        <span>
-          Choose Start Date: <MyDatePicker />
-        </span>
-        <span>
-          Choose End Date: <MyDatePicker />
-        </span>
-      </div>
-      <div>
-        <EventTable />
-      </div>
-    </div>
-  );
-}
-
-function EditInfo() {
-  return <div>Edit Page</div>;
-}
-
-function AddInfo() {
-  return <div>Add Page</div>;
 }
 
 export default App;
