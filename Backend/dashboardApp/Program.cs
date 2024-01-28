@@ -8,7 +8,10 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 Controller c = new Controller();
-c.ReadFile();
+
+// List<> events = new List<>();
+// events = c.ReadFile();
+c.SaveToDatabase(c.ReadFile());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
