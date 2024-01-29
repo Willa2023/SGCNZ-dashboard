@@ -46,16 +46,14 @@ public class Controller
         return events;
     }
 
-     
-   
     public void SaveToDatabase(List<Event> events)
     {
-        
+
         string connectionString = "Server=localhost;Database=test;User Id=root;Password=";
         using MySqlConnection connection = new MySqlConnection(connectionString);
         connection.Open();
 
-        foreach(Event e in events)
+        foreach (Event e in events)
         {
             string insertQuery = "INSERT INTO dawndb (StartDate, EndDate, Time, What, Venue, City, Contact, Notes) VALUES (@StartDate, @EndDate, @Time, @What, @Venue, @City, @Contact, @Notes)";
             using MySqlCommand command = new MySqlCommand(insertQuery, connection);
@@ -75,9 +73,57 @@ public class Controller
         Console.WriteLine("Data saved to MySQL database.");
 
     }
+
+    public List<Event> readFromDatabase()
+    {
+        List<Event> events = new List<Event>();
+
+        string connectionString = "Server=localhost;Database=test;User Id=root;Password=";
+        using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        string query = "SELECT * FROM dawndb";
+
+        using (MySqlCommand command = new MySqlCommand(query, connection))
+        {
+            connection.Open();
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Event e = new Event(
+                        reader.GetString("StartDate"),
+                        reader.GetString("EndDate"),
+                        reader.GetString("Time"),
+                        reader.GetString("What"),
+                        reader.GetString("Venue"),
+                        reader.GetString("City"),
+                        reader.GetString("Contact"),
+                        reader.GetString("Notes");
+                    );
+                    events.Add(e);
+                }
+            }
+        }
+        for (Event e in events)
+        {
+            Console.WriteLine(e.StartDate);
+            Console.WriteLine(e.EndDate);
+            Console.WriteLine(e.Time);
+            Console.WriteLine(e.What);
+            Console.WriteLine(e.Venue);
+            Console.WriteLine(e.City);
+            Console.WriteLine(e.Contact);
+            Console.WriteLine(e.Notes);
+
+        }
+        return events;
+    }
+
+
+
     // Define Event object
     public record Event(string StartDate, string EndDate, string Time, string What, string Venue, string City, string Contact, string Notes)
-        {
-        }
+    {
+    }
 
 }
