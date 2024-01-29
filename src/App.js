@@ -4,6 +4,7 @@ import DateEvent from "./Components/DateEvent";
 import AddEventForm from "./Components/AddEvent";
 import EditEventForm from "./Components/EditEvent";
 import NavBar from "./Components/NavBar";
+import TaskOverviewForm from "./Components/TaskOverviewForm";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/edit" element={<EditEventForm />} />
           <Route path="/add" element={<AddEventForm />} />
         </Routes>
+        <TaskOverviewForm />
       </div>
     </Router>
   );

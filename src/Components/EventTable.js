@@ -40,7 +40,7 @@ const EventTable = () => {
             <th>Start Date</th>
             <th>End Date</th>
             <th>Time</th>
-            <th>What</th>
+            <th>EventName</th>
             <th>Venue</th>
             <th>City</th>
             <th>Contact</th>
