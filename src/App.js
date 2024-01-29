@@ -4,7 +4,7 @@ import DateEvent from "./Components/DateEvent";
 import AddEventForm from "./Components/AddEvent";
 import EditEventForm from "./Components/EditEvent";
 import NavBar from "./Components/NavBar";
-import TaskOverviewForm from "./Components/TaskOverviewForm";
+import TaskOverviewForm from "./Components/TaskOverviewTable";
 
 function App() {
   return (
