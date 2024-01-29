@@ -3,8 +3,13 @@ using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
-public class Controller
+
+[Route("api/[controller]")]
+[ApiController]
+public class Controller : ControllerBase
 {
     public Controller()
     {
@@ -74,18 +79,19 @@ public class Controller
 
     }
 
-    public List<Event> readFromDatabase()
+    public List<Event> ReadFromDatabase()
     {
         List<Event> events = new List<Event>();
 
         string connectionString = "Server=localhost;Database=test;User Id=root;Password=";
         using MySqlConnection connection = new MySqlConnection(connectionString);
+        connection.Open();
 
         string query = "SELECT * FROM dawndb";
 
         using (MySqlCommand command = new MySqlCommand(query, connection))
         {
-            connection.Open();
+            
             using (MySqlDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
@@ -98,13 +104,14 @@ public class Controller
                         reader.GetString("Venue"),
                         reader.GetString("City"),
                         reader.GetString("Contact"),
-                        reader.GetString("Notes");
+                        "f"
+                        //reader.GetString("Notes")
                     );
                     events.Add(e);
                 }
             }
         }
-        for (Event e in events)
+        foreach (Event e in events)
         {
             Console.WriteLine(e.StartDate);
             Console.WriteLine(e.EndDate);
@@ -119,11 +126,23 @@ public class Controller
         return events;
     }
 
+[HttpGet("api/events")]
+     public ActionResult<IEnumerable<Event>> SendDataToFrontend()
+          {
+            try
+            {
+                //List<Event> events = ReadFromDatabase();
+                Console.WriteLine("F");
+                return Ok("it works");         
+            }
+            catch (Exception ex)
+            {             
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+          } 
 
-
-    // Define Event object
+  // Define Event object
     public record Event(string StartDate, string EndDate, string Time, string What, string Venue, string City, string Contact, string Notes)
     {
-    }
-
+    }    
 }
