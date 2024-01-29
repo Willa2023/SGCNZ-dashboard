@@ -12,11 +12,11 @@ function App() {
       <div className="App">
         <NavBar />
         <Routes>
-          <Route path="/" element={<DateEvent />} />
+          <Route path="/eventlist" element={<DateEvent />} />
           <Route path="/edit" element={<EditEventForm />} />
           <Route path="/add" element={<AddEventForm />} />
+          <Route path="/tasklist" element={<TaskOverviewForm />} />
         </Routes>
-        <TaskOverviewForm />
       </div>
     </Router>
   );
