@@ -6,15 +6,13 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
-
-[Route("api/[controller]")]
 [ApiController]
-public class Controller : ControllerBase
-{
-    public Controller()
-    {
-    }
+[Route("[controller]")]
 
+public class EventController : ControllerBase
+{
+
+    [HttpGet("readfile")]
     // Scans an Excel spreadsheet, creates Event objects from it and returns array of Events 
     public List<Event> ReadFile()
     {
@@ -126,13 +124,12 @@ public class Controller : ControllerBase
         return events;
     }
 
-[HttpGet("api/events")]
+     [HttpGet("test")]
      public ActionResult<IEnumerable<Event>> SendDataToFrontend()
           {
             try
             {
-                //List<Event> events = ReadFromDatabase();
-                Console.WriteLine("F");
+                // List<Event> events = ReadFromDatabase();
                 return Ok("it works");         
             }
             catch (Exception ex)
