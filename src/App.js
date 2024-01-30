@@ -1,25 +1,24 @@
-import logo from "./logo.svg";
 import "./App.css";
-import MyDatePicker from "./Components/MyDatePicker";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import DateEvent from "./Components/DateEvent";
+import AddEventForm from "./Components/AddEvent";
+import EditEventForm from "./Components/EditEvent";
+import NavBar from "./Components/NavBar";
+import TaskOverviewForm from "./Components/TaskOverviewTable";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <NavBar />
+        <Routes>
+          <Route path="/eventlist" element={<DateEvent />} />
+          <Route path="/edit" element={<EditEventForm />} />
+          <Route path="/add" element={<AddEventForm />} />
+          <Route path="/tasklist" element={<TaskOverviewForm />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
