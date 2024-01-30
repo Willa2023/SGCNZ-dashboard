@@ -2989,19 +2989,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/tituslambert-lane/.nuget/packages/": {}
+    "/Users/willa/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/tituslambert-lane/Desktop/MSwDev/SGCNZ-dashboard-2/Backend/dashboardApp/dashboardApp.csproj",
+      "projectUniqueName": "/Users/willa/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj",
       "projectName": "dashboardApp",
-      "projectPath": "/Users/tituslambert-lane/Desktop/MSwDev/SGCNZ-dashboard-2/Backend/dashboardApp/dashboardApp.csproj",
-      "packagesPath": "/Users/tituslambert-lane/.nuget/packages/",
-      "outputPath": "/Users/tituslambert-lane/Desktop/MSwDev/SGCNZ-dashboard-2/Backend/dashboardApp/obj/",
+      "projectPath": "/Users/willa/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj",
+      "packagesPath": "/Users/willa/.nuget/packages/",
+      "outputPath": "/Users/willa/SGCNZ-dashboard/Backend/dashboardApp/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/tituslambert-lane/.nuget/NuGet/NuGet.Config"
+        "/Users/willa/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3062,7 +3062,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
