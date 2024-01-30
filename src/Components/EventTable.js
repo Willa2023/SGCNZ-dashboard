@@ -17,8 +17,6 @@ const EventTable = () => {
       .then((response) => response.json())
       .then((data) => {
         setEvents(data);
-        console.log("connect to backend");
-        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching events:", error);
