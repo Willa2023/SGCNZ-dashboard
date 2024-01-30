@@ -17,13 +17,12 @@ const events = [
     startDate: "18 May",
     endDate: "19 May",
     time:"7:30pm",
-    eventName: "Event2",
+    event: "Event2",
     venue: "Venues Nationwide",
     city: "All NZ",
     contact: "Zhenzhen",
     notes: "uigugufufu",
   },
-  // ... more events
 ];
 
 const EventTable = () => {
