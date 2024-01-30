@@ -47,7 +47,7 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 200px;
+  margin-top: 300px;
 }
 
 .EventTable {
@@ -56,7 +56,6 @@ body, html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 440px;
   padding: 20px;
   background: #FFECD7;
   border: 1px solid #D6D6D6;
