@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{8A1A604E-1406-4DEB-9166-C2A51A53DAD0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dawnDashboard", "Backend\dawnDashboard\dawnDashboard.csproj", "{086722FB-2141-46BD-A9F8-A3FE43042192}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{086722FB-2141-46BD-A9F8-A3FE43042192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{086722FB-2141-46BD-A9F8-A3FE43042192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{086722FB-2141-46BD-A9F8-A3FE43042192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{086722FB-2141-46BD-A9F8-A3FE43042192}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{086722FB-2141-46BD-A9F8-A3FE43042192} = {8A1A604E-1406-4DEB-9166-C2A51A53DAD0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {743F54A3-1081-4AE7-AE31-17BB78B3091A}
+	EndGlobalSection
+EndGlobal
