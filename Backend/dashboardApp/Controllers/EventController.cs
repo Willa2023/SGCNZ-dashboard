@@ -78,15 +78,21 @@ public class EventController : ControllerBase
         Console.WriteLine("Data saved to MySQL database.");
     }
 
+    [HttpGet("printevents")]
     public List<Event> ReadFromDatabase()
     {
         List<Event> events = new List<Event>();
 
-        string connectionString = "Server=localhost;Database=test;User Id=root;Password=";
+        string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+        string awsRdsDatabase = "dawndatabase";
+        string awsRdsUsername = "admin";
+        string awsRdsPassword = "willawilla";
+
+        string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
         using MySqlConnection connection = new MySqlConnection(connectionString);
         connection.Open();
 
-        string query = "SELECT * FROM dawndb";
+        string query = "SELECT * FROM eventlist";
 
         using (MySqlCommand command = new MySqlCommand(query, connection))
         {
@@ -110,17 +116,17 @@ public class EventController : ControllerBase
                 }
             }
         }
-        foreach (Event e in events)
-        {
-            Console.WriteLine(e.StartDate);
-            Console.WriteLine(e.EndDate);
-            Console.WriteLine(e.Time);
-            Console.WriteLine(e.What);
-            Console.WriteLine(e.Venue);
-            Console.WriteLine(e.City);
-            Console.WriteLine(e.Contact);
-            Console.WriteLine(e.Notes);
-        }
+        /**    foreach (Event e in events)
+            {
+                Console.WriteLine(e.StartDate);
+                Console.WriteLine(e.EndDate);
+                Console.WriteLine(e.Time);
+                Console.WriteLine(e.What);
+                Console.WriteLine(e.Venue);
+                Console.WriteLine(e.City);
+                Console.WriteLine(e.Contact);
+                Console.WriteLine(e.Notes);
+            } **/
         return events;
     }
 
