@@ -34,13 +34,13 @@ public class EventController : ControllerBase
                 string startD = worksheet.Cells[row, 1].GetValue<string>();
                 string endD = worksheet.Cells[row, 2].GetValue<string>();
                 string time = worksheet.Cells[row, 3].GetValue<string>();
-                string what = worksheet.Cells[row, 4].GetValue<string>();
+                string EventName = worksheet.Cells[row, 4].GetValue<string>();
                 string venue = worksheet.Cells[row, 5].GetValue<string>();
                 string city = worksheet.Cells[row, 6].GetValue<string>();
                 string contact = worksheet.Cells[row, 7].GetValue<string>();
                 string notes = worksheet.Cells[row, 8].GetValue<string>();
 
-                Event e = new Event(startD, endD, time, what, venue, city, contact, notes);
+                Event e = new Event(startD, endD, time, EventName, venue, city, contact, notes);
                 events.Add(e);
                 //Console.WriteLine(e);
             }
@@ -68,7 +68,7 @@ public class EventController : ControllerBase
             command.Parameters.AddWithValue("@StartDate", e.StartDate);
             command.Parameters.AddWithValue("@EndDate", e.EndDate);
             command.Parameters.AddWithValue("@Time", e.Time);
-            command.Parameters.AddWithValue("@EventName", e.What);
+            command.Parameters.AddWithValue("@EventName", e.EventName);
             command.Parameters.AddWithValue("@Venue", e.Venue);
             command.Parameters.AddWithValue("@City", e.City);
             command.Parameters.AddWithValue("@Contact", e.Contact);
@@ -109,8 +109,8 @@ public class EventController : ControllerBase
                         reader.GetString("Venue"),
                         reader.GetString("City"),
                         reader.GetString("Contact"),
-                        "f"
-                    //reader.GetString("Notes")
+                        " "
+                    // reader.GetString("Notes")
                     );
                     events.Add(e);
                 }
@@ -121,7 +121,7 @@ public class EventController : ControllerBase
                 Console.WriteLine(e.StartDate);
                 Console.WriteLine(e.EndDate);
                 Console.WriteLine(e.Time);
-                Console.WriteLine(e.What);
+                Console.WriteLine(e.EventName);
                 Console.WriteLine(e.Venue);
                 Console.WriteLine(e.City);
                 Console.WriteLine(e.Contact);
@@ -146,7 +146,7 @@ public class EventController : ControllerBase
     }
 
     // Define Event object
-    public record Event(string StartDate, string EndDate, string Time, string What, string Venue, string City, string Contact, string Notes)
+    public record Event(string StartDate, string EndDate, string Time, string EventName, string Venue, string City, string Contact, string Notes)
     {
     }
 }
