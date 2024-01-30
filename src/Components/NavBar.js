@@ -5,10 +5,10 @@ export default function NavBar() {
   return (
     <div>
       <Link to="/eventlist">
-        <button>Event List Page</button>
+        <button>Event List Tab</button>
       </Link>
       <Link to="/tasklist">
-        <button>Task List Page</button>
+        <button>Task List Tab</button>
       </Link>
     </div>
   );
