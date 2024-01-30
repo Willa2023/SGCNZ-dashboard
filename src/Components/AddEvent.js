@@ -34,7 +34,7 @@ const AddEventForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='add-event-form'>
       <label>
         Start Date
         <input
@@ -112,7 +112,9 @@ const AddEventForm = ({ onSubmit }) => {
           onChange={handleChange}
         />
       </label>
-      <button type="submit">Submit</button>
+      <div className='form-buttons'>
+      <button className="AddEvent" type="submit">Submit</button>
+      </div>
     </form>
   );
 };

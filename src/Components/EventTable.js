@@ -28,7 +28,8 @@ const events = [
 
 const EventTable = () => {
   return (
-    <div>
+    <div className="parent-container">
+      <div className="EventTable">
       <h2>Event List</h2>
       <Link to="/add">
         <button>Add Event</button> {/* Implement onClick handler */}
@@ -69,6 +70,7 @@ const EventTable = () => {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };
