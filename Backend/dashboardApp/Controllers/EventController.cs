@@ -6,13 +6,12 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
+// All endpoints must start with "/Event"
 [ApiController]
 [Route("[controller]")]
-
 public class EventController : ControllerBase
 {
 
-    [HttpGet("readfile")]
     // Scans an Excel spreadsheet, creates Event objects from it and returns array of Events 
     public List<Event> ReadFile()
     {
@@ -51,30 +50,32 @@ public class EventController : ControllerBase
 
     public void SaveToDatabase(List<Event> events)
     {
+        string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+        string awsRdsDatabase = "dawndatabase";
+        string awsRdsUsername = "admin";
+        string awsRdsPassword = "willawilla";
 
-        string connectionString = "Server=localhost;Database=test;User Id=root;Password=";
+        string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
         using MySqlConnection connection = new MySqlConnection(connectionString);
         connection.Open();
 
+        // Iterate through array and add to DB.
         foreach (Event e in events)
         {
-            string insertQuery = "INSERT INTO dawndb (StartDate, EndDate, Time, What, Venue, City, Contact, Notes) VALUES (@StartDate, @EndDate, @Time, @What, @Venue, @City, @Contact, @Notes)";
+            string insertQuery = "INSERT INTO eventlist (StartDate, EndDate, Time, EventName, Venue, City, Contact, Notes) VALUES (@StartDate, @EndDate, @Time, @EventName, @Venue, @City, @Contact, @Notes)";
             using MySqlCommand command = new MySqlCommand(insertQuery, connection);
 
             command.Parameters.AddWithValue("@StartDate", e.StartDate);
             command.Parameters.AddWithValue("@EndDate", e.EndDate);
             command.Parameters.AddWithValue("@Time", e.Time);
-            command.Parameters.AddWithValue("@What", e.What);
+            command.Parameters.AddWithValue("@EventName", e.What);
             command.Parameters.AddWithValue("@Venue", e.Venue);
             command.Parameters.AddWithValue("@City", e.City);
             command.Parameters.AddWithValue("@Contact", e.Contact);
             command.Parameters.AddWithValue("@Notes", e.Notes);
-
-
             command.ExecuteNonQuery();
         }
         Console.WriteLine("Data saved to MySQL database.");
-
     }
 
     public List<Event> ReadFromDatabase()
@@ -89,7 +90,7 @@ public class EventController : ControllerBase
 
         using (MySqlCommand command = new MySqlCommand(query, connection))
         {
-            
+
             using (MySqlDataReader reader = command.ExecuteReader())
             {
                 while (reader.Read())
@@ -98,12 +99,12 @@ public class EventController : ControllerBase
                         reader.GetString("StartDate"),
                         reader.GetString("EndDate"),
                         reader.GetString("Time"),
-                        reader.GetString("What"),
+                        reader.GetString("EventName"),
                         reader.GetString("Venue"),
                         reader.GetString("City"),
                         reader.GetString("Contact"),
                         "f"
-                        //reader.GetString("Notes")
+                    //reader.GetString("Notes")
                     );
                     events.Add(e);
                 }
@@ -119,27 +120,27 @@ public class EventController : ControllerBase
             Console.WriteLine(e.City);
             Console.WriteLine(e.Contact);
             Console.WriteLine(e.Notes);
-
         }
         return events;
     }
 
-     [HttpGet("test")]
-     public ActionResult<IEnumerable<Event>> SendDataToFrontend()
-          {
-            try
-            {
-                // List<Event> events = ReadFromDatabase();
-                return Ok("it works");         
-            }
-            catch (Exception ex)
-            {             
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-          } 
+    // Use endpoint "/Event/returnevents" to get this function ("it works")
+    [HttpGet("returnevents")]
+    public ActionResult<IEnumerable<Event>> SendDataToFrontend()
+    {
+        try
+        {
+            // List<Event> events = ReadFromDatabase();
+            return Ok("IT WORKS...");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
 
-  // Define Event object
+    // Define Event object
     public record Event(string StartDate, string EndDate, string Time, string What, string Venue, string City, string Contact, string Notes)
     {
-    }    
+    }
 }
