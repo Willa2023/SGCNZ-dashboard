@@ -110,8 +110,9 @@ public class EventController : ControllerBase
                         reader.GetString("City"),
                         reader.GetString("Contact"),
                         " "
-                    // reader.GetString("Notes")
+                        //reader.GetString("Notes")
                     );
+                    
                     events.Add(e);
                 }
             }
@@ -145,6 +146,80 @@ public class EventController : ControllerBase
         }
     }
 
+
+
+
+    [HttpPut("edit")]
+    public IActionResult EditDatabase([FromBody] Event eventData)
+    {
+        try
+        {
+            string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+            string awsRdsDatabase = "dawndatabase";
+            string awsRdsUsername = "admin";
+            string awsRdsPassword = "willawilla";
+
+            string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+            using MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+
+            string updateQuery = "UPDATE eventlist SET StartDate = @StartDate, EndDate = @EndDate, Time = @Time, EventName = @EventName, Venue = @Venue, City = @City, Contact = @Contact, Notes = @Notes WHERE EventName = @EventName";
+            using MySqlCommand command = new MySqlCommand(updateQuery, connection);
+
+            command.Parameters.AddWithValue("@StartDate", eventData.StartDate);
+            command.Parameters.AddWithValue("@EndDate", eventData.EndDate);
+            command.Parameters.AddWithValue("@Time", eventData.Time);
+            command.Parameters.AddWithValue("@EventName", eventData.EventName);
+            command.Parameters.AddWithValue("@Venue", eventData.Venue);
+            command.Parameters.AddWithValue("@City", eventData.City);
+            command.Parameters.AddWithValue("@Contact", eventData.Contact);
+            command.Parameters.AddWithValue("@Notes", eventData.Notes);
+
+            command.ExecuteNonQuery();
+
+            return Ok("Data updated successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }  
+    }
+
+    [HttpDelete("delete")]
+    public IActionResult DeleteEvent([FromBody] Event eventData)
+    {
+         try
+        {
+            string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+            string awsRdsDatabase = "dawndatabase";
+            string awsRdsUsername = "admin";
+            string awsRdsPassword = "willawilla";
+
+            string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+            using MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+
+            string deleteQuery = "DELETE FROM eventlist WHERE EventName = @EventName";
+            using MySqlCommand command = new MySqlCommand(deleteQuery, connection);
+
+            command.Parameters.AddWithValue("@EventName", eventData.EventName);
+
+            int rowsAffected = command.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                return Ok("Data deleted successfully");
+            }
+            else
+            {
+                return NotFound("No matching data found for deletion");
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
     // Define Event object
     public record Event(string StartDate, string EndDate, string Time, string EventName, string Venue, string City, string Contact, string Notes)
     {

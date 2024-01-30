@@ -8,9 +8,26 @@ const EditEventForm = ({ onSubmit, initialData }) => {
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     onSubmit(formData);
+    try {
+      const response = await fetch('http://localhost:5000/Event/edit', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      console.log('Data updated successfully');
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -47,9 +64,9 @@ const EditEventForm = ({ onSubmit, initialData }) => {
         What
         <input
           type="text"
-          name="what"
+          name="eventname"
           placeholder="Placeholder"
-          value={formData.what}
+          value={formData.eventname}
           onChange={handleChange}
         />
       </label>
@@ -103,7 +120,7 @@ EditEventForm.defaultProps = {
     startDate: '',
     endDate: '',
     time:'',
-    what: '',
+    eventname: '',
     venue: '',
     city: '',
     contact: '',

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const EventTable = () => {
   const [events, setEvents] = useState([]);
+  const [deletedIndex, setDeletedIndex] = useState(null);
 
   const handleAddEventClick = () => {
     console.log("Add Event button clicked");
@@ -22,10 +23,31 @@ const EventTable = () => {
         console.error("Error fetching events:", error);
       });
   };
+  // add delete function
+  const handleDelete = async (index) => {
+    try {
+      const response = await fetch('http://localhost:5000/Event/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(events[index])
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      console.log('Event deleted successfully');
+      setDeletedIndex(index);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [deletedIndex]); // Fetch events again when an event is deleted
 
   return (
     <div className="parent-container">
@@ -65,7 +87,7 @@ const EventTable = () => {
                   <Link to="/edit">
                     <button>Edit</button>
                   </Link>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(index)}>Delete</button>
                 </td>
               </tr>
             ))}
