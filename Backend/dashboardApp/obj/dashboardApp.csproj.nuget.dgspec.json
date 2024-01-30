@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/willa/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj": {}
+    "/Users/tingtian/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj": {}
   },
   "projects": {
-    "/Users/willa/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj": {
+    "/Users/tingtian/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/willa/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj",
+        "projectUniqueName": "/Users/tingtian/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj",
         "projectName": "dashboardApp",
-        "projectPath": "/Users/willa/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj",
-        "packagesPath": "/Users/willa/.nuget/packages/",
-        "outputPath": "/Users/willa/SGCNZ-dashboard/Backend/dashboardApp/obj/",
+        "projectPath": "/Users/tingtian/SGCNZ-dashboard/Backend/dashboardApp/dashboardApp.csproj",
+        "packagesPath": "/Users/tingtian/.nuget/packages/",
+        "outputPath": "/Users/tingtian/SGCNZ-dashboard/Backend/dashboardApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/willa/.nuget/NuGet/NuGet.Config"
+          "/Users/tingtian/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -75,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
