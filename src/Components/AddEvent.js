@@ -5,7 +5,7 @@ const AddEventForm = ({ onSubmit }) => {
     startDate: '',
     endDate: '',
     time:'',
-    what: '',
+    eventName: '',
     venue: '',
     city: '',
     contact: '',
@@ -25,7 +25,7 @@ const AddEventForm = ({ onSubmit }) => {
       startDate: '',
       endDate: '',
       time:'',
-      what: '',
+      eventName: '',
       venue: '',
       city: '',
       contact: '',
@@ -64,12 +64,12 @@ const AddEventForm = ({ onSubmit }) => {
         />
       </label>
       <label>
-        What
+        eventName
         <input
           type="text"
-          name="what"
+          name="eventName"
           placeholder="Placeholder"
-          value={formData.what}
+          value={formData.eventName}
           onChange={handleChange}
         />
       </label>
