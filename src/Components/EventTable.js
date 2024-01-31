@@ -28,22 +28,22 @@ const EventTable = () => {
   // add delete function
   const handleDelete = async (index) => {
     try {
-      const response = await fetch('http://localhost:5000/Event/delete', {
-        method: 'DELETE',
+      const response = await fetch("http://localhost:5000/Event/delete", {
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(events[index])
+        body: JSON.stringify(events[index]),
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
-      console.log('Event deleted successfully');
+      console.log("Event deleted successfully");
       setDeletedIndex(index);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -54,9 +54,11 @@ const EventTable = () => {
   return (
     <div className="parent-container">
       <div className="EventTable">
-        <h2>Event List</h2>   
+        <h2>Event List</h2>
         {/* <Link id="link-container" to="/add"> */}
-          <button className="AddEvent" onClick={handleAddEventClick}>Add Event</button>
+        <button className="AddEvent" onClick={handleAddEventClick}>
+          Add Event
+        </button>
         {/* </Link> */}
         <table className="EventTableMainTable">
           <thead>
@@ -89,7 +91,12 @@ const EventTable = () => {
                   <Link to={`/edit/${event.id}`}>
                     <button className="edit-button">Edit</button>
                   </Link>
-                  <button className="delete-button" onClick={() => handleDelete(index)}>Delete</button>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(index)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

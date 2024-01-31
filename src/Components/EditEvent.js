@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const EditEventForm = ({ onSubmit, initialData }) => {
+const EditEventForm = ({ onSubmit, initialData, eventId }) => {
   const [formData, setFormData] = useState(initialData);
 
   useEffect(() => {
@@ -19,28 +19,28 @@ const EditEventForm = ({ onSubmit, initialData }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     onSubmit(formData);
     try {
-      const response = await fetch('http://localhost:5000/Event/edit', {
-        method: 'PUT',
+      const response = await fetch("http://localhost:5000/Event/edit", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
-      console.log('Data updated successfully');
+      console.log("Data updated successfully");
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -141,7 +141,7 @@ EditEventForm.defaultProps = {
     contact: '',
     notes: ''
   },
-  onSubmit: () => {} // Dummy function for example
+  onSubmit: () => {}, // Dummy function for example
 };
 
 export default EditEventForm;
