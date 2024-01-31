@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 const EventTable = () => {
   const [events, setEvents] = useState([]);
   const [deletedIndex, setDeletedIndex] = useState(null);
+  const [selectedEventd, setselectedEventd] = useState(null);
 
   const handleAddEventClick = () => {
     console.log("Add Event button clicked");
+    window.location.href = "http://localhost:3000/add";
   };
 
   const handleUploadFileClick = () => {
@@ -45,6 +47,10 @@ const EventTable = () => {
     }
   };
 
+const handleEdit = (id) =>{
+  setselectedEventd(id);
+};
+
   useEffect(() => {
     fetchEvents();
   }, [deletedIndex]); // Fetch events again when an event is deleted
@@ -52,12 +58,10 @@ const EventTable = () => {
   return (
     <div className="parent-container">
       <div className="EventTable">
-        <h2>Event List</h2>
-        <Link to="/add">
-          <button onClick={handleAddEventClick}>Add Event</button>
-        </Link>
-        <button onClick={handleUploadFileClick}>Upload Spreadsheet File</button>
-
+        <h2>Event List</h2>   
+        {/* <Link id="link-container" to="/add"> */}
+          <button className="AddEvent" onClick={handleAddEventClick}>Add Event</button>
+        {/* </Link> */}
         <table className="EventTableMainTable">
           <thead>
             <tr>
@@ -86,10 +90,10 @@ const EventTable = () => {
                 <td>{event.contact}</td>
                 <td>{event.notes}</td>
                 <td>
-                  <Link to="/edit">
-                    <button>Edit</button>
+                  <Link to={`/edit/${event.id}`}>
+                    <button className="edit-button">Edit</button>
                   </Link>
-                  <button onClick={() => handleDelete(index)}>Delete</button>
+                  <button className="delete-button" onClick={() => handleDelete(index)}>Delete</button>
                 </td>
               </tr>
             ))}
