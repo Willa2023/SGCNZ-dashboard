@@ -1,32 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
-const EditEventForm = ({ onSubmit, initialData }) => {
+const EditEventForm = ({ onSubmit, initialData, eventId }) => {
   const [formData, setFormData] = useState(initialData);
+
+  useEffect(() => {
+    const fetchEventData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/Event/getEventById/${eventId}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const eventData = await response.json();
+        setFormData(eventData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchEventData();
+  }, [eventId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     onSubmit(formData);
     try {
-      const response = await fetch('http://localhost:5000/Event/edit', {
-        method: 'PUT',
+      const response = await fetch("http://localhost:5000/Event/edit", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
-      console.log('Data updated successfully');
+      console.log("Data updated successfully");
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
@@ -117,16 +136,17 @@ const EditEventForm = ({ onSubmit, initialData }) => {
 // Default props for the form in case you need default values
 EditEventForm.defaultProps = {
   initialData: {
-    startDate: '',
-    endDate: '',
-    time:'',
-    eventname: '',
-    venue: '',
-    city: '',
-    contact: '',
-    notes: ''
+    id: "",
+    startDate: "",
+    endDate: "",
+    time: "",
+    eventname: "",
+    venue: "",
+    city: "",
+    contact: "",
+    notes: "",
   },
-  onSubmit: () => {} // Dummy function for example
+  onSubmit: () => {}, // Dummy function for example
 };
 
 export default EditEventForm;

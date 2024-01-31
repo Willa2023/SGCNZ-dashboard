@@ -13,7 +13,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/eventlist" element={<DateEvent />} />
-          <Route path="/edit" element={<EditEventForm />} />
+          <Route path="/edit/:eventId" element={<EditEventForm />} />
           <Route path="/add" element={<AddEventForm />} />
           <Route path="/tasklist" element={<TaskOverviewForm />} />
         </Routes>
