@@ -31,6 +31,9 @@ public class EventController : ControllerBase
             for (int row = 2; row <= rows; row++)
             {
                 // Get cell value at current row and column [?]
+                Guid guid = Guid.NewGuid();
+                string Id = guid.ToString();
+                //string Id = worksheet.Cells[row, 1].GetValue<string>();
                 string startD = worksheet.Cells[row, 1].GetValue<string>();
                 string endD = worksheet.Cells[row, 2].GetValue<string>();
                 string time = worksheet.Cells[row, 3].GetValue<string>();
@@ -40,7 +43,7 @@ public class EventController : ControllerBase
                 string contact = worksheet.Cells[row, 7].GetValue<string>();
                 string notes = worksheet.Cells[row, 8].GetValue<string>();
 
-                Event e = new Event(startD, endD, time, EventName, venue, city, contact, notes);
+                Event e = new Event(Id, startD, endD, time, EventName, venue, city, contact, notes);
                 events.Add(e);
                 //Console.WriteLine(e);
             }
@@ -62,9 +65,10 @@ public class EventController : ControllerBase
         // Iterate through array and add to DB.
         foreach (Event e in events)
         {
-            string insertQuery = "INSERT INTO eventlist (StartDate, EndDate, Time, EventName, Venue, City, Contact, Notes) VALUES (@StartDate, @EndDate, @Time, @EventName, @Venue, @City, @Contact, @Notes)";
+            string insertQuery = "INSERT INTO eventlist (Id, StartDate, EndDate, Time, EventName, Venue, City, Contact, Notes) VALUES (@Id, @StartDate, @EndDate, @Time, @EventName, @Venue, @City, @Contact, @Notes)";
             using MySqlCommand command = new MySqlCommand(insertQuery, connection);
 
+            command.Parameters.AddWithValue("@Id", e.Id);
             command.Parameters.AddWithValue("@StartDate", e.StartDate);
             command.Parameters.AddWithValue("@EndDate", e.EndDate);
             command.Parameters.AddWithValue("@Time", e.Time);
@@ -102,6 +106,7 @@ public class EventController : ControllerBase
                 while (reader.Read())
                 {
                     Event e = new Event(
+                        reader.GetString("Id"),
                         reader.GetString("StartDate"),
                         reader.GetString("EndDate"),
                         reader.GetString("Time"),
@@ -137,7 +142,9 @@ public class EventController : ControllerBase
     {
         try
         {
-            // List<Event> events = ReadFromDatabase();
+           // List<Event> events = ReadFromDatabase();
+            SaveToDatabase(ReadFile());
+            
             return Ok("IT WORKS...");
         }
         catch (Exception ex)
@@ -163,9 +170,10 @@ public class EventController : ControllerBase
             using MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
 
-            string updateQuery = "UPDATE eventlist SET StartDate = @StartDate, EndDate = @EndDate, Time = @Time, EventName = @EventName, Venue = @Venue, City = @City, Contact = @Contact, Notes = @Notes WHERE EventName = @EventName";
+            string updateQuery = "UPDATE eventlist SET StartDate = @StartDate, EndDate = @EndDate, Time = @Time, EventName = @EventName, Venue = @Venue, City = @City, Contact = @Contact, Notes = @Notes WHERE Id = @Id";
             using MySqlCommand command = new MySqlCommand(updateQuery, connection);
 
+            command.Parameters.AddWithValue("@Id", eventData.Id);
             command.Parameters.AddWithValue("@StartDate", eventData.StartDate);
             command.Parameters.AddWithValue("@EndDate", eventData.EndDate);
             command.Parameters.AddWithValue("@Time", eventData.Time);
@@ -199,10 +207,10 @@ public class EventController : ControllerBase
             using MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
 
-            string deleteQuery = "DELETE FROM eventlist WHERE EventName = @EventName";
+            string deleteQuery = "DELETE FROM eventlist WHERE Id = @Id";
             using MySqlCommand command = new MySqlCommand(deleteQuery, connection);
 
-            command.Parameters.AddWithValue("@EventName", eventData.EventName);
+            command.Parameters.AddWithValue("@Id", eventData.Id);
 
             int rowsAffected = command.ExecuteNonQuery();
 
@@ -221,7 +229,7 @@ public class EventController : ControllerBase
         }
     }
     // Define Event object
-    public record Event(string StartDate, string EndDate, string Time, string EventName, string Venue, string City, string Contact, string Notes)
+    public record Event(string Id, string StartDate, string EndDate, string Time, string EventName, string Venue, string City, string Contact, string Notes)
     {
     }
 }

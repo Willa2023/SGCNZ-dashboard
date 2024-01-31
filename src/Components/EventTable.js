@@ -67,6 +67,7 @@ const EventTable = () => {
         <table className="EventTableMainTable">
           <thead>
             <tr>
+              <th>Id</th>
               <th>Start Date</th>
               <th>End Date</th>
               <th>Time</th>
@@ -81,6 +82,7 @@ const EventTable = () => {
           <tbody>
             {events.map((event, index) => (
               <tr key={index}>
+                <td>{event.id}</td>
                 <td>{event.startDate}</td>
                 <td>{event.endDate}</td>
                 <td>{event.time}</td>
