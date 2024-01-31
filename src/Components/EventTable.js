@@ -47,10 +47,6 @@ const EventTable = () => {
     }
   };
 
-const handleEdit = (id) =>{
-  setselectedEventd(id);
-};
-
   useEffect(() => {
     fetchEvents();
   }, [deletedIndex]); // Fetch events again when an event is deleted

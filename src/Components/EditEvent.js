@@ -1,7 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const EditEventForm = ({ onSubmit, initialData }) => {
   const [formData, setFormData] = useState(initialData);
+
+  useEffect(() => {
+    var currentUrl = window.location.pathname;
+    var parts = currentUrl.split('/');
+    var uuid = parts[parts.length - 1];
+    
+    console.log("uuid: ", uuid)
+    setFormData(prevState => ({
+      ...prevState,
+      id: uuid
+    }));
+  }, [])
+
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -117,6 +131,7 @@ const EditEventForm = ({ onSubmit, initialData }) => {
 // Default props for the form in case you need default values
 EditEventForm.defaultProps = {
   initialData: {
+    id: '',
     startDate: '',
     endDate: '',
     time:'',
