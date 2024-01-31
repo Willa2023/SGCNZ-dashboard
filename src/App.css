@@ -62,16 +62,30 @@ body, html {
   border-radius: 30px;
 }
 
-.AddEvent, .UploadButton, .Edit, .Delete {
+.edit-button {
   width: 92px;
   height: 26px;
-  color: #444444;
+  color: #f4f1f1;
   font-family: "Source Sans Pro";
   font-weight: 600;
   font-size: 20px;
   line-height: 1.3;
-  text-align: left;
-  background: #FFC581;
+  text-align: center;
+  background: #0b7404;
+  border-radius: 5px;
+}
+
+.delete-button {
+  width: 92px;
+  height: 26px;
+  color: #faf6f6;
+  font-family: "Source Sans Pro";
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.3;
+  background: #cb272c;
+  border-radius: 5px;
 }
 
 .EventTableMainTable {
@@ -101,28 +115,39 @@ margin-top: 50px;
   margin-top: 40px; 
 }
 
-/* Add border styling to table cells */
 .EventTableMainTable th,
 .EventTableMainTable td {
-  border: 1px solid #555; /* Adjust the color and thickness as needed */
-  padding: 8px; /* Adjust the padding as needed for spacing */
+  border: 1px solid #555; 
+  padding: 8px;
 }
 
-/* Add border styling to the table header */
 .EventTableMainTable th {
-  background-color: #333; /* Header background color */
-  color: white; /* Header text color */
+  background-color: #333; 
+  color: white; 
 }
 
-/* Add border styling to the table */
 .EventTableMainTable {
   border-collapse: collapse;
   width: 100%;
-  margin-top: 20px; /* Adjust the margin as needed for spacing */
+  margin-top: 20px; 
 }
 
-/* Style the edit and delete buttons within each table cell */
 .EventTableMainTable td button {
-  margin-right: 5px; /* Adjust the margin as needed for spacing */
+  margin-right: 5px;
+}
+
+
+.AddEvent { 
+  width: 140px;
+  height: 40px;
+  color: #f5f9f8;
+  font-family: "Source Sans Pro";
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.3;
+  text-align:center;
+  margin-left: auto;
+  border-radius: 5px;
+  background-color: #2f2d2d;
 }
 
