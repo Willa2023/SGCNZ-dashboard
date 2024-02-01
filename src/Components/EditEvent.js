@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 const EditEventForm = ({ onSubmit, initialData }) => {
   const [formData, setFormData] = useState(initialData);
   const { eventId } = useParams();
-  console.log(eventId);
 
   useEffect(() => {
     const fetchEventData = async (eventId) => {
@@ -31,13 +30,10 @@ const EditEventForm = ({ onSubmit, initialData }) => {
     fetchEventData(eventId); // Pass eventId as an argument here
   }, [eventId]);
 
-
   useEffect(() => {
     var currentUrl = window.location.pathname;
     var parts = currentUrl.split("/");
     var uuid = parts[parts.length - 1];
-
-    console.log("uuid: ", uuid);
     setFormData((prevState) => ({
       ...prevState,
       id: uuid,
