@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const AddEventForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
+    id: '',
     startDate: '',
     endDate: '',
     time:'',
@@ -17,21 +18,84 @@ const AddEventForm = ({ onSubmit }) => {
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
-    // Optionally reset form after submit
-    setFormData({
-      startDate: '',
-      endDate: '',
-      time:'',
-      eventName: '',
-      venue: '',
-      city: '',
-      contact: '',
-      notes: ''
-    });
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+  
+      // Ensure that onSubmit is a function before calling it
+      if (typeof onSubmit === 'function') {
+        // Call the provided onSubmit function with the form data
+        await onSubmit(formData);
+      } else {
+        // Log an error if onSubmit is not a function
+        console.error('onSubmit is not a function');
+        return; // Exit the function early
+      }
+  
+      // Make a POST request to the specified endpoint
+      const response = await fetch('http://localhost:5000/Event/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+  
+      // Check if the network response is ok
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      console.log('Event added successfully');
+  
+      // Optionally reset form after submit
+      setFormData({
+        id: '',
+        startDate: '',
+        endDate: '',
+        time: '',
+        eventName: '',
+        venue: '',
+        city: '',
+        contact: '',
+        notes: ''
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   onSubmit(formData);
+
+  //   const response = await fetch('http://localhost:5000/Event/add', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(formData)
+  //   });
+
+  //   if (!response.ok) {
+  //     throw new Error('Network response was not ok');
+  //   }
+
+  //   console.log('Event added successfully');
+
+    // Optionally reset form after submit
+  //   setFormData({
+  //     id: '',
+  //     startDate: '',
+  //     endDate: '',
+  //     time:'',
+  //     eventName: '',
+  //     venue: '',
+  //     city: '',
+  //     contact: '',
+  //     notes: ''
+  //   });
+  // };
 
   return (
     <form onSubmit={handleSubmit} className='add-event-form'>

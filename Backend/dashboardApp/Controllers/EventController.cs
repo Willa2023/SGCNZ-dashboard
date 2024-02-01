@@ -287,6 +287,49 @@ public class EventController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+
+[HttpPost("add")]
+public IActionResult AddToDatabase([FromBody] Event eventData)
+{
+    try
+    {
+        string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+        string awsRdsDatabase = "dawndatabase";
+        string awsRdsUsername = "admin";
+        string awsRdsPassword = "willawilla";
+
+        string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+        
+        using MySqlConnection connection = new MySqlConnection(connectionString);
+        connection.Open();
+
+        string insertQuery = "INSERT INTO eventlist (Id, StartDate, EndDate, Time, EventName, Venue, City, Contact, Notes) " +
+                             "VALUES (@Id, @StartDate, @EndDate, @Time, @EventName, @Venue, @City, @Contact, @Notes)";
+
+        using MySqlCommand command = new MySqlCommand(insertQuery, connection);
+
+        Guid addguid = Guid.NewGuid();
+        string addId = addguid.ToString();
+        command.Parameters.AddWithValue("@Id", addId);
+        command.Parameters.AddWithValue("@StartDate", eventData.StartDate);
+        command.Parameters.AddWithValue("@EndDate", eventData.EndDate);
+        command.Parameters.AddWithValue("@Time", eventData.Time);
+        command.Parameters.AddWithValue("@EventName", eventData.EventName);
+        command.Parameters.AddWithValue("@Venue", eventData.Venue);
+        command.Parameters.AddWithValue("@City", eventData.City);
+        command.Parameters.AddWithValue("@Contact", eventData.Contact);
+        command.Parameters.AddWithValue("@Notes", eventData.Notes);
+
+        command.ExecuteNonQuery();
+
+        return Ok("Data added successfully");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
     // Define Event object
     public record Event(string Id, string StartDate, string EndDate, string Time, string EventName, string Venue, string City, string Contact, string Notes)
     {
