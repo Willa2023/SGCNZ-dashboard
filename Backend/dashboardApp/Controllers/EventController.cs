@@ -114,8 +114,8 @@ public class EventController : ControllerBase
                         reader.GetString("Venue"),
                         reader.GetString("City"),
                         reader.GetString("Contact"),
-                        " "
-                    //reader.GetString("Notes")
+                        reader.GetString("Notes")
+                        
                     );
 
                     events.Add(e);
@@ -172,8 +172,7 @@ public class EventController : ControllerBase
                                 reader.GetString("Venue"),
                                 reader.GetString("City"),
                                 reader.GetString("Contact"),
-                                " "
-                            //reader.GetString("Notes")
+                                reader.GetString("Notes")
                             );
 
                             return Ok(eventObj);
