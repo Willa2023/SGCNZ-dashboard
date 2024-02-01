@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 const EditEventForm = ({ onSubmit, initialData }) => {
   const [formData, setFormData] = useState(initialData);
   const { eventId } = useParams();
-  console.log(eventId);
 
   useEffect(() => {
     const fetchEventData = async (eventId) => {
@@ -31,55 +30,10 @@ const EditEventForm = ({ onSubmit, initialData }) => {
     fetchEventData(eventId); // Pass eventId as an argument here
   }, [eventId]);
 
-  // useEffect(() => {
-  //   const fetchEventData = async (eventId) => {
-  //     try {
-  //       const response = await fetch(
-  //         `http://localhost:5000/Event/showById/${eventId}`,
-  //         {
-  //           method: "GET",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       );
-
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       const eventData = await response.json();
-  //       setFormData(eventData);
-  //     } catch (error) {
-  //       console.error("Error fetching event data:", error);
-  //     }
-  //   };
-  //   fetchEventData();
-  // }, [eventId]);
-
-  // useEffect(() => {
-  //   const fetchEventData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `http://localhost:5000/Event/showById/${eventId}`
-  //       );
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch event data");
-  //       }
-  //       const eventData = await response.json();
-  //       setFormData(eventData);
-  //     } catch (error) {
-  //       console.error("Error fetching event data:", error);
-  //     }
-  //   };
-  //   fetchEventData();
-  // }, [eventId]);
-
   useEffect(() => {
     var currentUrl = window.location.pathname;
     var parts = currentUrl.split("/");
     var uuid = parts[parts.length - 1];
-
-    console.log("uuid: ", uuid);
     setFormData((prevState) => ({
       ...prevState,
       id: uuid,
@@ -144,12 +98,12 @@ const EditEventForm = ({ onSubmit, initialData }) => {
         />
       </label>
       <label>
-        What
+        Event Name
         <input
           type="text"
-          name="eventname"
+          name="eventName"
           placeholder="Placeholder"
-          value={formData.eventname}
+          value={formData.eventName}
           onChange={handleChange}
         />
       </label>
@@ -204,7 +158,7 @@ EditEventForm.defaultProps = {
     startDate: "",
     endDate: "",
     time: "",
-    eventname: "",
+    eventName: "",
     venue: "",
     city: "",
     contact: "",
