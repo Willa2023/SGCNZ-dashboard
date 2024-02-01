@@ -115,9 +115,9 @@ public class EventController : ControllerBase
                         reader.GetString("City"),
                         reader.GetString("Contact"),
                         " "
-                        //reader.GetString("Notes")
+                    //reader.GetString("Notes")
                     );
-                    
+
                     events.Add(e);
                 }
             }
@@ -136,15 +136,72 @@ public class EventController : ControllerBase
         return events;
     }
 
+    [HttpGet("showById/{id}")]
+    public IActionResult GetEventById(string id)
+    {
+        try
+        {
+            string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+            string awsRdsDatabase = "dawndatabase";
+            string awsRdsUsername = "admin";
+            string awsRdsPassword = "willawilla";
+
+            string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string eventId = id;
+                string query = "SELECT * FROM eventlist WHERE Id = @Id";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", eventId);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Event eventObj = new Event(
+                                reader.GetString("Id"),
+                                reader.GetString("StartDate"),
+                                reader.GetString("EndDate"),
+                                reader.GetString("Time"),
+                                reader.GetString("EventName"),
+                                reader.GetString("Venue"),
+                                reader.GetString("City"),
+                                reader.GetString("Contact"),
+                                " "
+                            //reader.GetString("Notes")
+                            );
+
+                            return Ok(eventObj);
+                        }
+                        else
+                        {
+                            return NotFound();
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
+
     // Use endpoint "/Event/returnevents" to get this function ("it works")
     [HttpGet("returnevents")]
     public ActionResult<IEnumerable<Event>> SendDataToFrontend()
     {
         try
         {
-           // List<Event> events = ReadFromDatabase();
+            // List<Event> events = ReadFromDatabase();
             SaveToDatabase(ReadFile());
-            
+
             return Ok("IT WORKS...");
         }
         catch (Exception ex)
@@ -190,13 +247,13 @@ public class EventController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
-        }  
+        }
     }
 
-    [HttpDelete("delete")]
-    public IActionResult DeleteEvent([FromBody] Event eventData)
+    [HttpDelete("delete/{id}")]
+    public IActionResult DeleteEvent(string id)
     {
-         try
+        try
         {
             string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
             string awsRdsDatabase = "dawndatabase";
@@ -207,10 +264,12 @@ public class EventController : ControllerBase
             using MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
 
+            string eventId = id;
+
             string deleteQuery = "DELETE FROM eventlist WHERE Id = @Id";
             using MySqlCommand command = new MySqlCommand(deleteQuery, connection);
 
-            command.Parameters.AddWithValue("@Id", eventData.Id);
+            command.Parameters.AddWithValue("@Id", eventId);
 
             int rowsAffected = command.ExecuteNonQuery();
 

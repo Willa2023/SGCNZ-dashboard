@@ -1,21 +1,90 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-const EditEventForm = ({ onSubmit, initialData, eventId }) => {
+const EditEventForm = ({ onSubmit, initialData }) => {
   const [formData, setFormData] = useState(initialData);
+  const { eventId } = useParams();
+  console.log(eventId);
+
+  useEffect(() => {
+    const fetchEventData = async (eventId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/Event/showById/${eventId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const eventData = await response.json();
+        setFormData(eventData);
+      } catch (error) {
+        console.error("Error fetching event data:", error);
+      }
+    };
+    fetchEventData(eventId); // Pass eventId as an argument here
+  }, [eventId]);
+
+  // useEffect(() => {
+  //   const fetchEventData = async (eventId) => {
+  //     try {
+  //       const response = await fetch(
+  //         `http://localhost:5000/Event/showById/${eventId}`,
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       const eventData = await response.json();
+  //       setFormData(eventData);
+  //     } catch (error) {
+  //       console.error("Error fetching event data:", error);
+  //     }
+  //   };
+  //   fetchEventData();
+  // }, [eventId]);
+
+  // useEffect(() => {
+  //   const fetchEventData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `http://localhost:5000/Event/showById/${eventId}`
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch event data");
+  //       }
+  //       const eventData = await response.json();
+  //       setFormData(eventData);
+  //     } catch (error) {
+  //       console.error("Error fetching event data:", error);
+  //     }
+  //   };
+  //   fetchEventData();
+  // }, [eventId]);
 
   useEffect(() => {
     var currentUrl = window.location.pathname;
-    var parts = currentUrl.split('/');
+    var parts = currentUrl.split("/");
     var uuid = parts[parts.length - 1];
-    
-    console.log("uuid: ", uuid)
-    setFormData(prevState => ({
-      ...prevState,
-      id: uuid
-    }));
-  }, [])
 
- 
+    console.log("uuid: ", uuid);
+    setFormData((prevState) => ({
+      ...prevState,
+      id: uuid,
+    }));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -131,15 +200,15 @@ const EditEventForm = ({ onSubmit, initialData, eventId }) => {
 // Default props for the form in case you need default values
 EditEventForm.defaultProps = {
   initialData: {
-    id: '',
-    startDate: '',
-    endDate: '',
-    time:'',
-    eventname: '',
-    venue: '',
-    city: '',
-    contact: '',
-    notes: ''
+    id: "",
+    startDate: "",
+    endDate: "",
+    time: "",
+    eventname: "",
+    venue: "",
+    city: "",
+    contact: "",
+    notes: "",
   },
   onSubmit: () => {}, // Dummy function for example
 };

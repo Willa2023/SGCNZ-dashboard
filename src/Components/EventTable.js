@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { EventRow } from "./EventRow";
 
 const EventTable = () => {
   const [events, setEvents] = useState([]);
-  const [deletedIndex, setDeletedIndex] = useState(null);
-  const [selectedEventd, setselectedEventd] = useState(null);
+  const [deletedId, setDeletedId] = useState(null);
 
   const handleAddEventClick = () => {
     console.log("Add Event button clicked");
     window.location.href = "http://localhost:3000/add";
-  };
-
-  const handleUploadFileClick = () => {
-    console.log("Upload Spreadsheet File button clicked");
   };
 
   const fetchEvents = () => {
@@ -26,22 +22,20 @@ const EventTable = () => {
       });
   };
   // add delete function
-  const handleDelete = async (index) => {
+  const onDelete = async (id) => {
     try {
-      const response = await fetch("http://localhost:5000/Event/delete", {
+      const response = await fetch(`http://localhost:5000/Event/delete/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(events[index]),
       });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
       console.log("Event deleted successfully");
-      setDeletedIndex(index);
+      setDeletedId(id);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -49,7 +43,7 @@ const EventTable = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, [deletedIndex]); // Fetch events again when an event is deleted
+  }, [deletedId]); // Fetch events again when an event is deleted
 
   return (
     <div className="parent-container">
@@ -76,29 +70,8 @@ const EventTable = () => {
             </tr>
           </thead>
           <tbody>
-            {events.map((event, index) => (
-              <tr key={index}>
-                <td>{event.id}</td>
-                <td>{event.startDate}</td>
-                <td>{event.endDate}</td>
-                <td>{event.time}</td>
-                <td>{event.eventName}</td>
-                <td>{event.venue}</td>
-                <td>{event.city}</td>
-                <td>{event.contact}</td>
-                <td>{event.notes}</td>
-                <td>
-                  <Link to={`/edit/${event.id}`}>
-                    <button className="edit-button">Edit</button>
-                  </Link>
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDelete(index)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
+            {events.map((event) => (
+              <EventRow key={event.id} event={event} onDelete={onDelete} />
             ))}
           </tbody>
         </table>
