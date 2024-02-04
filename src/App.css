@@ -151,3 +151,61 @@ margin-top: 50px;
   background-color: #2f2d2d;
 }
 
+/* Task overview table */
+.todo-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f4f4f4;
+  padding-top: 100px;
+}
+
+.todo-month {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.todo-status {
+  margin: 0 10px;
+}
+
+.todo-month {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.todo-item th,
+.todo-item td {
+  width:33%;
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin-right: 10px;
+}
+
+.todo-item th {
+  background-color: #f2f2f2;
+}
+
+.todo-item td:not(:last-child) {
+  border-right: 1px solid #ddd;
+}
+
+.todo-item select {
+  margin-left: 10px;
+}
+
+.todo-heading {
+  font-weight: bold;
+}
+
+/* .event-title{
+  align-items: center;
+} */
