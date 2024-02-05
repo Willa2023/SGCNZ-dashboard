@@ -51,6 +51,66 @@ public class EventController : ControllerBase
         return events;
     }
 
+    public List<Task> ReadTaskFile()
+    {
+        List<Task> tasks = new List<Task>();
+        string filepath = "NSSPTaskList.xlsx";
+
+        using (ExcelPackage excelFile = new ExcelPackage(new FileInfo(filepath)))
+        {
+            // Open the worksheet in the excel file (there is only 1)
+            ExcelWorksheet worksheet = excelFile.Workbook.Worksheets[0];
+            // Get row count for worksheet
+            int rows = worksheet.Dimension.Rows;
+
+            // Start at row 2 (ignore headers)
+            for (int row = 2; row <= rows; row++)
+            {
+                // Get cell value at current row and column [?]
+                Guid guid = Guid.NewGuid();
+                string taskID = guid.ToString();
+                string month = worksheet.Cells[row, 1].GetValue<string>();
+                string contact = worksheet.Cells[row, 2].GetValue<string>();
+                string taskName = worksheet.Cells[row, 3].GetValue<string>();
+                //    string email = worksheet.Cells[row, 4].GetValue<string>();
+                //    string phone = worksheet.Cells[row, 5].GetValue<string>();
+                //    string notes = worksheet.Cells[row, 6].GetValue<string>();
+
+                Task t = new Task(month, contact, taskName, " ", " ", " ", taskID, " ");
+                tasks.Add(t);
+            }
+        }
+        return tasks;
+    }
+
+    public void SaveTasktoDatabase(List<Task> tasks)
+    {
+        string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+        string awsRdsDatabase = "dawndatabase";
+        string awsRdsUsername = "admin";
+        string awsRdsPassword = "willawilla";
+
+        string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+        using MySqlConnection connection = new MySqlConnection(connectionString);
+        connection.Open();
+
+        foreach (Task t in tasks)
+        {
+            string insertQuery = "INSERT INTO tasklist (month, contact, taskName, email, phone, notes, taskID, eventID) VALUES (@month, @contact, @taskName, @email, @phone, @notes, @taskID, @eventID)";
+            using MySqlCommand command = new MySqlCommand(insertQuery, connection);
+
+            command.Parameters.AddWithValue("@month", t.month);
+            command.Parameters.AddWithValue("@contact", t.contact);
+            command.Parameters.AddWithValue("@taskName", t.taskName);
+            command.Parameters.AddWithValue("@email", t.email);
+            command.Parameters.AddWithValue("@phone", t.phone);
+            command.Parameters.AddWithValue("@notes", t.notes);
+            command.Parameters.AddWithValue("@taskID", t.taskID);
+            command.Parameters.AddWithValue("@eventID", "03ef55b2-767f-46df-82dd-3bf50938c8ea");
+            command.ExecuteNonQuery();
+        }
+    }
+
     public void SaveToDatabase(List<Event> events)
     {
         string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
@@ -115,7 +175,7 @@ public class EventController : ControllerBase
                         reader.GetString("City"),
                         reader.GetString("Contact"),
                         reader.GetString("Notes")
-                        
+
                     );
 
                     events.Add(e);
@@ -191,7 +251,6 @@ public class EventController : ControllerBase
         }
     }
 
-
     // Use endpoint "/Event/returnevents" to get this function ("it works")
     [HttpGet("returnevents")]
     public ActionResult<IEnumerable<Event>> SendDataToFrontend()
@@ -199,7 +258,7 @@ public class EventController : ControllerBase
         try
         {
             // List<Event> events = ReadFromDatabase();
-            SaveToDatabase(ReadFile());
+            SaveTasktoDatabase(ReadTaskFile());
 
             return Ok("IT WORKS...");
         }
@@ -208,9 +267,6 @@ public class EventController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
-
-
-
 
     [HttpPut("edit")]
     public IActionResult EditDatabase([FromBody] Event eventData)
@@ -287,50 +343,54 @@ public class EventController : ControllerBase
         }
     }
 
-[HttpPost("add")]
-public IActionResult AddToDatabase([FromBody] Event eventData)
-{
-    try
+    [HttpPost("add")]
+    public IActionResult AddToDatabase([FromBody] Event eventData)
     {
-        string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
-        string awsRdsDatabase = "dawndatabase";
-        string awsRdsUsername = "admin";
-        string awsRdsPassword = "willawilla";
+        try
+        {
+            string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+            string awsRdsDatabase = "dawndatabase";
+            string awsRdsUsername = "admin";
+            string awsRdsPassword = "willawilla";
 
-        string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
-        
-        using MySqlConnection connection = new MySqlConnection(connectionString);
-        connection.Open();
+            string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
 
-        string insertQuery = "INSERT INTO eventlist (Id, StartDate, EndDate, Time, EventName, Venue, City, Contact, Notes) " +
-                             "VALUES (@Id, @StartDate, @EndDate, @Time, @EventName, @Venue, @City, @Contact, @Notes)";
+            using MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
 
-        using MySqlCommand command = new MySqlCommand(insertQuery, connection);
+            string insertQuery = "INSERT INTO eventlist (Id, StartDate, EndDate, Time, EventName, Venue, City, Contact, Notes) " +
+                                 "VALUES (@Id, @StartDate, @EndDate, @Time, @EventName, @Venue, @City, @Contact, @Notes)";
 
-        Guid addguid = Guid.NewGuid();
-        string addId = addguid.ToString();
-        command.Parameters.AddWithValue("@Id", addId);
-        command.Parameters.AddWithValue("@StartDate", eventData.StartDate);
-        command.Parameters.AddWithValue("@EndDate", eventData.EndDate);
-        command.Parameters.AddWithValue("@Time", eventData.Time);
-        command.Parameters.AddWithValue("@EventName", eventData.EventName);
-        command.Parameters.AddWithValue("@Venue", eventData.Venue);
-        command.Parameters.AddWithValue("@City", eventData.City);
-        command.Parameters.AddWithValue("@Contact", eventData.Contact);
-        command.Parameters.AddWithValue("@Notes", eventData.Notes);
+            using MySqlCommand command = new MySqlCommand(insertQuery, connection);
 
-        command.ExecuteNonQuery();
+            Guid addguid = Guid.NewGuid();
+            string addId = addguid.ToString();
+            command.Parameters.AddWithValue("@Id", addId);
+            command.Parameters.AddWithValue("@StartDate", eventData.StartDate);
+            command.Parameters.AddWithValue("@EndDate", eventData.EndDate);
+            command.Parameters.AddWithValue("@Time", eventData.Time);
+            command.Parameters.AddWithValue("@EventName", eventData.EventName);
+            command.Parameters.AddWithValue("@Venue", eventData.Venue);
+            command.Parameters.AddWithValue("@City", eventData.City);
+            command.Parameters.AddWithValue("@Contact", eventData.Contact);
+            command.Parameters.AddWithValue("@Notes", eventData.Notes);
 
-        return Ok("Data added successfully");
+            command.ExecuteNonQuery();
+
+            return Ok("Data added successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Internal server error: {ex.Message}");
-    }
-}
 
     // Define Event object
     public record Event(string Id, string StartDate, string EndDate, string Time, string EventName, string Venue, string City, string Contact, string Notes)
+    {
+    }
+
+    public record Task(string month, string contact, string taskName, string email, string phone, string notes, string taskID, string eventID)
     {
     }
 }
