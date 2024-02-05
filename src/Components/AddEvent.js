@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AddEventForm = ({ onSubmit }) => {
+const AddEventForm = () => {
   const [formData, setFormData] = useState({
     id: '',
     startDate: '',
@@ -19,18 +19,12 @@ const AddEventForm = ({ onSubmit }) => {
   };
 
   const handleSubmit = async (e) => {
+
+     e.preventDefault();
     try {
-      e.preventDefault();
+     
   
-      // Ensure that onSubmit is a function before calling it
-      if (typeof onSubmit === 'function') {
-        // Call the provided onSubmit function with the form data
-        await onSubmit(formData);
-      } else {
-        // Log an error if onSubmit is not a function
-        console.error('onSubmit is not a function');
-        return; // Exit the function early
-      }
+      
   
       // Make a POST request to the specified endpoint
       const response = await fetch('http://localhost:5000/Event/add', {
@@ -177,7 +171,7 @@ const AddEventForm = ({ onSubmit }) => {
         />
       </label>
       <div className='form-buttons'>
-      <button className="AddEvent" type="submit">Submit</button>
+        <button className="AddEvent" type="submit">Submit</button>
       </div>
     </form>
   );

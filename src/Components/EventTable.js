@@ -6,11 +6,6 @@ const EventTable = () => {
   const [events, setEvents] = useState([]);
   const [deletedId, setDeletedId] = useState(null);
 
-  const handleAddEventClick = () => {
-    console.log("Add Event button clicked");
-    window.location.href = "http://localhost:3000/add";
-  };
-
   const fetchEvents = () => {
     fetch("http://localhost:5000/Event/printevents")
       .then((response) => response.json())
@@ -49,11 +44,13 @@ const EventTable = () => {
     <div className="parent-container">
       <div className="EventTable">
         <h2>Event List</h2>
-        {/* <Link id="link-container" to="/add"> */}
-        <button className="AddEvent" onClick={handleAddEventClick}>
+       
+        <Link to={`/add`}>
+        <button className="AddEvent">
           Add Event
         </button>
-        {/* </Link> */}
+        </Link> 
+      
         <table className="EventTableMainTable">
           <thead>
             <tr>
