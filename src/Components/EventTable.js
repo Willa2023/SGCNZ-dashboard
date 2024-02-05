@@ -5,6 +5,11 @@ import { EventRow } from "./EventRow";
 const EventTable = () => {
   const [events, setEvents] = useState([]);
   const [deletedId, setDeletedId] = useState(null);
+  const [selectedYear, setSelectedYear] = useState("");
+
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
 
   const fetchEvents = () => {
     fetch("http://localhost:5000/Event/printevents")
@@ -44,17 +49,36 @@ const EventTable = () => {
     <div className="parent-container">
       <div className="EventTable">
         <h2>Event List</h2>
-       
+
         <Link to={`/add`}>
-        <button className="AddEvent">
-          Add Event
-        </button>
-        </Link> 
-      
+          <button className="AddEvent">Add Event</button>
+        </Link>
+
+        <div>
+          <label htmlFor="yearSelect">Select Year: </label>
+          <select
+            id="yearSelect"
+            value={selectedYear}
+            onChange={handleYearChange}
+          >
+            <option value="">All</option>
+            {/* Assume events contain start dates */}
+            {[
+              ...new Set(
+                events.map((event) => new Date(event.startDate).getFullYear())
+              ),
+            ].map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <table className="EventTableMainTable">
           <thead>
             <tr>
-              <th>Id</th>
+              {/* <th>Id</th> */}
               <th>Start Date</th>
               <th>End Date</th>
               <th>Time</th>

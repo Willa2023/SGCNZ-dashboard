@@ -8,11 +8,13 @@ export const EventRow = ({ event, onDelete }) => {
 
   return (
     <tr>
-      <td>{event.id}</td>
+      {/* <td>{event.id}</td> */}
       <td>{event.startDate}</td>
       <td>{event.endDate}</td>
       <td>{event.time}</td>
-      <td>{event.eventName}</td>
+      <td>
+        <Link to={`/task/${event.id}`}>{event.eventName}</Link>
+      </td>
       <td>{event.venue}</td>
       <td>{event.city}</td>
       <td>{event.contact}</td>

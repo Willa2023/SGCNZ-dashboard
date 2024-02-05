@@ -15,7 +15,7 @@ function App() {
           <Route path="/eventlist" element={<EventTable />} />
           <Route path="/edit/:eventId" element={<EditEventForm />} />
           <Route path="/add" element={<AddEventForm />} />
-          <Route path="/tasklist" element={<TaskOverviewForm />} />
+          <Route path="/task/:eventId" element={<TaskOverviewForm />} />
         </Routes>
       </div>
     </Router>
