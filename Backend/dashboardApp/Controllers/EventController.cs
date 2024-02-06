@@ -11,9 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]")]
 public class EventController : ControllerBase
 {
+    private string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+    private string awsRdsDatabase = "dawndatabase";
+    private string awsRdsUsername = "admin";
+    private string awsRdsPassword = "willawilla";
 
     // Scans an Excel spreadsheet, creates Event objects from it and returns array of Events 
-    public List<Event> ReadFile()
+    public List<Event> ReadEventFile()
     {
         List<Event> events = new List<Event>();
 
@@ -83,13 +87,8 @@ public class EventController : ControllerBase
         return tasks;
     }
 
-    public void SaveTasktoDatabase(List<Task> tasks)
+    public void SaveTaskstoDatabase(List<Task> tasks)
     {
-        string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
-        string awsRdsDatabase = "dawndatabase";
-        string awsRdsUsername = "admin";
-        string awsRdsPassword = "willawilla";
-
         string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
         using MySqlConnection connection = new MySqlConnection(connectionString);
         connection.Open();
@@ -111,13 +110,44 @@ public class EventController : ControllerBase
         }
     }
 
-    public void SaveToDatabase(List<Event> events)
+    [HttpGet("printtasks/{Id}")]
+    public List<Task> ReadTasksFromDatabase(string Id)
     {
-        string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
-        string awsRdsDatabase = "dawndatabase";
-        string awsRdsUsername = "admin";
-        string awsRdsPassword = "willawilla";
+        List<Task> tasks = new List<Task>();
 
+        string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+        using MySqlConnection connection = new MySqlConnection(connectionString);
+        connection.Open();
+
+        string query = "SELECT * FROM tasklist WHERE eventID = @id";
+
+        using (MySqlCommand command = new MySqlCommand(query, connection))
+        {
+            command.AddWithValue.Parameters("@id", Id);
+
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Task t = new Task(
+                        reader.GetString("month"),
+                        reader.GetString("contact"),
+                        reader.GetString("taskName"),
+                        reader.GetString("email"),
+                        reader.GetString("phone"),
+                        reader.GetString("notes"),
+                        " ",
+                        " "
+                    );
+                    tasks.Add(t);
+                }
+            }
+        }
+        return tasks;
+    }
+
+    public void SaveEventsToDatabase(List<Event> events)
+    {
         string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
         using MySqlConnection connection = new MySqlConnection(connectionString);
         connection.Open();
@@ -143,14 +173,9 @@ public class EventController : ControllerBase
     }
 
     [HttpGet("printevents")]
-    public List<Event> ReadFromDatabase()
+    public List<Event> ReadEventsFromDatabase()
     {
         List<Event> events = new List<Event>();
-
-        string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
-        string awsRdsDatabase = "dawndatabase";
-        string awsRdsUsername = "admin";
-        string awsRdsPassword = "willawilla";
 
         string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
         using MySqlConnection connection = new MySqlConnection(connectionString);
@@ -182,17 +207,6 @@ public class EventController : ControllerBase
                 }
             }
         }
-        /**    foreach (Event e in events)
-            {
-                Console.WriteLine(e.StartDate);
-                Console.WriteLine(e.EndDate);
-                Console.WriteLine(e.Time);
-                Console.WriteLine(e.EventName);
-                Console.WriteLine(e.Venue);
-                Console.WriteLine(e.City);
-                Console.WriteLine(e.Contact);
-                Console.WriteLine(e.Notes);
-            } **/
         return events;
     }
 
@@ -201,11 +215,6 @@ public class EventController : ControllerBase
     {
         try
         {
-            string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
-            string awsRdsDatabase = "dawndatabase";
-            string awsRdsUsername = "admin";
-            string awsRdsPassword = "willawilla";
-
             string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -253,7 +262,7 @@ public class EventController : ControllerBase
 
     // Use endpoint "/Event/returnevents" to get this function ("it works")
     [HttpGet("returnevents")]
-    public ActionResult<IEnumerable<Event>> SendDataToFrontend()
+    public ActionResult<IEnumerable<Event>> callSaveMethods()
     {
         try
         {
@@ -269,15 +278,10 @@ public class EventController : ControllerBase
     }
 
     [HttpPut("edit")]
-    public IActionResult EditDatabase([FromBody] Event eventData)
+    public IActionResult EditEvent([FromBody] Event eventData)
     {
         try
         {
-            string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
-            string awsRdsDatabase = "dawndatabase";
-            string awsRdsUsername = "admin";
-            string awsRdsPassword = "willawilla";
-
             string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
             using MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
@@ -310,11 +314,6 @@ public class EventController : ControllerBase
     {
         try
         {
-            string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
-            string awsRdsDatabase = "dawndatabase";
-            string awsRdsUsername = "admin";
-            string awsRdsPassword = "willawilla";
-
             string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
             using MySqlConnection connection = new MySqlConnection(connectionString);
             connection.Open();
@@ -344,15 +343,10 @@ public class EventController : ControllerBase
     }
 
     [HttpPost("add")]
-    public IActionResult AddToDatabase([FromBody] Event eventData)
+    public IActionResult AddEventToDatabase([FromBody] Event eventData)
     {
         try
         {
-            string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
-            string awsRdsDatabase = "dawndatabase";
-            string awsRdsUsername = "admin";
-            string awsRdsPassword = "willawilla";
-
             string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
 
             using MySqlConnection connection = new MySqlConnection(connectionString);
