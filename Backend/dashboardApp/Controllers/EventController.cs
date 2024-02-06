@@ -124,7 +124,7 @@ public class EventController : ControllerBase
 
         using (MySqlCommand command = new MySqlCommand(query, connection))
         {
-            command.AddWithValue.Parameters("@id", Id);
+            command.Parameters.AddWithValue("@id", Id);
 
             using (MySqlDataReader reader = command.ExecuteReader())
             {
@@ -268,7 +268,7 @@ public class EventController : ControllerBase
         try
         {
             // List<Event> events = ReadFromDatabase();
-            SaveTasktoDatabase(ReadTaskFile());
+            SaveTaskstoDatabase(ReadTaskFile());
 
             return Ok("IT WORKS...");
         }
