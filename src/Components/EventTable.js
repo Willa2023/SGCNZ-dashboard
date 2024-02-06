@@ -91,7 +91,15 @@ const EventTable = () => {
             </tr>
           </thead>
           <tbody>
-            {events.map((event) => (
+            {events
+            .filter((event) => {
+              // 如果没有选择年份（即selectedYear为空），则显示所有事件
+              if (!selectedYear) return true;
+              // 否则，仅显示与选定年份匹配的事件
+              const eventYear = new Date(event.startDate).getFullYear().toString();
+              return eventYear === selectedYear;
+            })
+            .map((event) => (
               <EventRow key={event.id} event={event} onDelete={onDelete} />
             ))}
           </tbody>

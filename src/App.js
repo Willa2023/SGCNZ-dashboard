@@ -4,6 +4,7 @@ import EventTable from "./Components/EventTable";
 import AddEventForm from "./Components/AddEvent";
 import EditEventForm from "./Components/EditEvent";
 import NavBar from "./Components/NavBar";
+import TaskTable from "./Components/TaskTable";
 import TaskOverviewForm from "./Components/TaskOverviewTable";
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
           <Route path="/eventlist" element={<EventTable />} />
           <Route path="/edit/:eventId" element={<EditEventForm />} />
           <Route path="/add" element={<AddEventForm />} />
-          <Route path="/task/:eventId" element={<TaskList />} />
+          <Route path="/task/:eventId" element={<TaskTable />} />
         </Routes>
       </div>
     </Router>
