@@ -11,12 +11,12 @@ const AddEventForm = () => {
     city: "",
     contact: "",
     notes: "",
-  });
+  }); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
+  }; 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,7 +79,7 @@ const AddEventForm = () => {
         <input
           type="text"
           name="time"
-          placeholder="Placeholder"
+          placeholder="Input event time here..."
           value={formData.time}
           onChange={handleChange}
         />
@@ -89,7 +89,7 @@ const AddEventForm = () => {
         <input
           type="text"
           name="eventName"
-          placeholder="Placeholder"
+          placeholder="Input event name here..."
           value={formData.eventName}
           onChange={handleChange}
         />
@@ -99,7 +99,7 @@ const AddEventForm = () => {
         <input
           type="text"
           name="venue"
-          placeholder="Placeholder"
+          placeholder="Input event venue here..."
           value={formData.venue}
           onChange={handleChange}
         />
@@ -109,7 +109,7 @@ const AddEventForm = () => {
         <input
           type="text"
           name="city"
-          placeholder="Placeholder"
+          placeholder="Input event city here..."
           value={formData.city}
           onChange={handleChange}
         />
@@ -119,7 +119,7 @@ const AddEventForm = () => {
         <input
           type="text"
           name="contact"
-          placeholder="Placeholder"
+          placeholder="Input contact information here..."
           value={formData.contact}
           onChange={handleChange}
         />
@@ -128,7 +128,7 @@ const AddEventForm = () => {
         Notes
         <textarea
           name="notes"
-          placeholder="Placeholder"
+          placeholder="Add your notes here..."
           value={formData.notes}
           onChange={handleChange}
         />
