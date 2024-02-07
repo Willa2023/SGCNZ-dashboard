@@ -279,7 +279,7 @@ public class EventController : ControllerBase
 
             command.ExecuteNonQuery();
 
-            return Ok("Data added successfully");
+            return Ok("New Event added successfully");
         }
         catch (Exception ex)
         {
