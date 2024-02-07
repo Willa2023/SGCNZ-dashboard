@@ -55,7 +55,7 @@ public class EventController : ControllerBase
         return events;
     }
 
-  
+
     public List<Task> ReadTaskFile()
     {
         List<Task> tasks = new List<Task>();
@@ -81,7 +81,7 @@ public class EventController : ControllerBase
                 //    string phone = worksheet.Cells[row, 5].GetValue<string>();
                 //    string notes = worksheet.Cells[row, 6].GetValue<string>();
 
-                Task t = new Task(month, contact, taskName, " ", " ", " ", taskID, " ");
+                Task t = new Task(month, contact, taskName, "Not started", " ", " ", " ", taskID, " ");
                 tasks.Add(t);
             }
         }
@@ -96,12 +96,13 @@ public class EventController : ControllerBase
 
         foreach (Task t in tasks)
         {
-            string insertQuery = "INSERT INTO tasklist (month, contact, taskName, email, phone, notes, taskID, eventID) VALUES (@month, @contact, @taskName, @email, @phone, @notes, @taskID, @eventID)";
+            string insertQuery = "INSERT INTO tasklist (month, contact, taskName, status, email, phone, notes, taskID, eventID) VALUES (@month, @contact, @taskName, @status, @email, @phone, @notes, @taskID, @eventID)";
             using MySqlCommand command = new MySqlCommand(insertQuery, connection);
 
             command.Parameters.AddWithValue("@month", t.month);
             command.Parameters.AddWithValue("@contact", t.contact);
             command.Parameters.AddWithValue("@taskName", t.taskName);
+            command.Parameters.AddWithValue("@status", t.status);
             command.Parameters.AddWithValue("@email", t.email);
             command.Parameters.AddWithValue("@phone", t.phone);
             command.Parameters.AddWithValue("@notes", t.notes);
@@ -134,6 +135,7 @@ public class EventController : ControllerBase
                         reader.GetString("month"),
                         reader.GetString("contact"),
                         reader.GetString("taskName"),
+                        reader.GetString("status"),
                         reader.GetString("email"),
                         reader.GetString("phone"),
                         reader.GetString("notes"),
@@ -261,14 +263,14 @@ public class EventController : ControllerBase
         }
     }
 
-    // Use endpoint "/Event/returnevents" to get this function ("it works")
+    // Use endpoint "/Event/returnevents" to call this function ("it works")
     [HttpGet("returnevents")]
     public ActionResult<IEnumerable<Event>> callSaveMethods()
     {
         try
         {
             // List<Event> events = ReadFromDatabase();
-            SaveTaskstoDatabase(ReadTaskFile());
+            //SaveTaskstoDatabase(ReadTaskFile());
 
             return Ok("IT WORKS...");
         }
@@ -385,7 +387,7 @@ public class EventController : ControllerBase
     {
     }
 
-    public record Task(string month, string contact, string taskName, string email, string phone, string notes, string taskID, string eventID)
+    public record Task(string month, string contact, string taskName, string status, string email, string phone, string notes, string taskID, string eventID)
     {
     }
 }
