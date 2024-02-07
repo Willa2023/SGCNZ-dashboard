@@ -55,7 +55,6 @@ public class EventController : ControllerBase
         return events;
     }
 
-
     public List<Task> ReadTaskFile()
     {
         List<Task> tasks = new List<Task>();
@@ -375,6 +374,39 @@ public class EventController : ControllerBase
             command.ExecuteNonQuery();
 
             return Ok("Data added successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
+    [HttpDelete("deletetask/{id}")]
+    public IActionResult DeleteTask(string id)
+    {
+        try
+        {
+            string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+            using MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+
+            string taskId = id;
+
+            string deleteQuery = "DELETE FROM tasklist WHERE taskID = @Id";
+            using MySqlCommand command = new MySqlCommand(deleteQuery, connection);
+
+            command.Parameters.AddWithValue("@Id", taskId);
+
+            int rowsAffected = command.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                return Ok("Data deleted successfully");
+            }
+            else
+            {
+                return NotFound("No matching data found for deletion");
+            }
         }
         catch (Exception ex)
         {
