@@ -43,18 +43,18 @@ const AddEventForm = () => {
         window.location.href = "/eventlist";
       }, 1000);
 
-      // // Optionally reset form after submit
-      // setFormData({
-      //   id: "",
-      //   startDate: "",
-      //   endDate: "",
-      //   time: "",
-      //   eventName: "",
-      //   venue: "",
-      //   city: "",
-      //   contact: "",
-      //   notes: "",
-      // });
+      // Optionally reset form after submit
+      setFormData({
+        id: "",
+        startDate: "",
+        endDate: "",
+        time: "",
+        eventName: "",
+        venue: "",
+        city: "",
+        contact: "",
+        notes: "",
+      });
     } catch (error) {
       console.error("Error:", error);
     }
