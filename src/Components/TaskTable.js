@@ -35,7 +35,7 @@ const   TaskTable = () => {
 
   const onDelete = async (taskID) => {
     try {
-      const response = await fetch(`http://localhost:5000/Event/delete/${taskID}`, {
+      const response = await fetch(`http://localhost:5000/Event/deletetask/${taskID}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -51,6 +51,13 @@ const   TaskTable = () => {
       console.error("Error:", error);
     }
   };
+
+  const handleUpdateTask = (updatedTask) => {
+    // Logic to update the task in the state or backend
+    console.log(updatedTask);
+    // ... rest of the update logic
+  };
+  
 
 //  const fetchTasks = async ({eventId}) =>  {
 //       fetch("http://localhost:5000/Event/printtasks/${eventId}")
@@ -96,7 +103,7 @@ const   TaskTable = () => {
           <tbody>
             {tasks
             .map((task) => (
-              <TaskRow key={task.taskID} task={task} onDelete={onDelete}/>
+              <TaskRow key={task.taskID} task={task} onDelete={onDelete} onUpdate={handleUpdateTask} />
             ))} 
             
           </tbody>
