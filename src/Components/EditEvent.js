@@ -75,7 +75,7 @@ const EditEventForm = ({ onSubmit, initialData }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="edit-event-form">
         <label>
           Start Date
           <input
@@ -99,7 +99,7 @@ const EditEventForm = ({ onSubmit, initialData }) => {
           <input
             type="text"
             name="time"
-            placeholder="Placeholder"
+            placeholder="Edit event time here..."
             value={formData.time}
             onChange={handleChange}
           />
@@ -109,7 +109,7 @@ const EditEventForm = ({ onSubmit, initialData }) => {
           <input
             type="text"
             name="eventName"
-            placeholder="Placeholder"
+            placeholder="Edit event name here..."
             value={formData.eventName}
             onChange={handleChange}
           />
@@ -119,7 +119,7 @@ const EditEventForm = ({ onSubmit, initialData }) => {
           <input
             type="text"
             name="venue"
-            placeholder="Placeholder"
+            placeholder="Edit event venue here..."
             value={formData.venue}
             onChange={handleChange}
           />
@@ -129,7 +129,7 @@ const EditEventForm = ({ onSubmit, initialData }) => {
           <input
             type="text"
             name="city"
-            placeholder="Placeholder"
+            placeholder="Edit event city here..."
             value={formData.city}
             onChange={handleChange}
           />
@@ -139,7 +139,7 @@ const EditEventForm = ({ onSubmit, initialData }) => {
           <input
             type="text"
             name="contact"
-            placeholder="Placeholder"
+            placeholder="Edit contact information here..."
             value={formData.contact}
             onChange={handleChange}
           />
@@ -148,12 +148,15 @@ const EditEventForm = ({ onSubmit, initialData }) => {
           Notes
           <textarea
             name="notes"
-            placeholder="Placeholder"
+            placeholder="Add your notes here..."
             value={formData.notes}
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Submit</button>
+        <div className="form-buttons">
+        <button  className="EditEvent" type="submit">Submit
+        </button>
+        </div>   
       </form>
     </>
   );

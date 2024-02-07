@@ -91,7 +91,7 @@ const AddEventForm = () => {
         />
       </label>
       <label>
-        eventName
+        EventName
         <input
           type="text"
           name="eventName"
