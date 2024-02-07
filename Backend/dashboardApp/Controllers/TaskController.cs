@@ -125,6 +125,38 @@ public class TaskController : ControllerBase
         }
     }
 
+    [HttpPut("edit")]
+    public IActionResult EditTask([FromBody] Task taskData)
+    {
+        try
+        {
+            string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+            using MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+
+            string updateQuery = "UPDATE tasklist SET month = @month, contact = @contact, taskName = @taskName, status = @status, email = @email, phone = @phone, notes = @notes WHERE taskID = @taskID";
+            using MySqlCommand command = new MySqlCommand(updateQuery, connection);
+
+            command.Parameters.AddWithValue("@month", taskData.month);
+            command.Parameters.AddWithValue("@contact", taskData.contact);
+            command.Parameters.AddWithValue("@taskName", taskData.taskName);
+            command.Parameters.AddWithValue("@status", taskData.status);
+            command.Parameters.AddWithValue("@email", taskData.email);
+            command.Parameters.AddWithValue("@phone", taskData.phone);
+            command.Parameters.AddWithValue("@notes", taskData.notes);
+            command.Parameters.AddWithValue("@taskID", taskData.taskID);
+            //command.Parameters.AddWithValue("@Notes", eventData.Notes);
+
+            command.ExecuteNonQuery();
+
+            return Ok("Task data updated successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
     [HttpDelete("deletetask/{id}")]
     public IActionResult DeleteTask(string id)
     {
