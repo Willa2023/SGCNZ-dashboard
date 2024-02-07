@@ -190,6 +190,45 @@ public class TaskController : ControllerBase
         }
     }
 
+    [HttpPost("addtask")]
+    public IActionResult AddTaskToDatabase([FromBody] Task taskdata)
+    {
+        try
+        {
+            string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+
+            using MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+
+            string insertQuery = "INSERT INTO tasklist (month, contact, taskName, status, email, phone, notes, taskID, eventID) " +
+                                 "VALUES (@month, @contact, @taskName, @status, @email, @phone, @notes, @taskID, @eventID)";
+
+            using MySqlCommand command = new MySqlCommand(insertQuery, connection);
+
+            command.Parameters.AddWithValue("@month", taskdata.month);
+            command.Parameters.AddWithValue("@contact", taskdata.contact);
+            command.Parameters.AddWithValue("@taskName", taskdata.taskName);
+            command.Parameters.AddWithValue("@status", taskdata.status);
+            command.Parameters.AddWithValue("@email", taskdata.email);
+            command.Parameters.AddWithValue("@phone", taskdata.phone);
+            command.Parameters.AddWithValue("@notes", taskdata.notes);
+
+            // Generate new unique taskID
+            Guid addguid = Guid.NewGuid();
+            string newTaskID = addguid.ToString();
+            command.Parameters.AddWithValue("@taskID", newTaskID);
+
+            command.Parameters.AddWithValue("@eventID", taskdata.eventID);
+            command.ExecuteNonQuery();
+
+            return Ok("new Task added successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
     public record Task(string month, string contact, string taskName, string status, string email, string phone, string notes, string taskID, string eventID)
     {
     }
