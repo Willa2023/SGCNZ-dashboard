@@ -11,12 +11,12 @@ const AddEventForm = () => {
     city: "",
     contact: "",
     notes: "",
-  }); 
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
-  }; 
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,18 +37,24 @@ const AddEventForm = () => {
 
       console.log("Event added successfully");
 
-      // Optionally reset form after submit
-      setFormData({
-        id: "",
-        startDate: "",
-        endDate: "",
-        time: "",
-        eventName: "",
-        venue: "",
-        city: "",
-        contact: "",
-        notes: "",
-      });
+      alert("Event added successfully");
+
+      setTimeout(function () {
+        window.location.href = "/eventlist";
+      }, 1000);
+
+      // // Optionally reset form after submit
+      // setFormData({
+      //   id: "",
+      //   startDate: "",
+      //   endDate: "",
+      //   time: "",
+      //   eventName: "",
+      //   venue: "",
+      //   city: "",
+      //   contact: "",
+      //   notes: "",
+      // });
     } catch (error) {
       console.error("Error:", error);
     }

@@ -61,6 +61,12 @@ const EditEventForm = ({ onSubmit, initialData }) => {
         throw new Error("Network response was not ok");
       }
 
+      alert("Event updated successfully");
+
+      setTimeout(function () {
+        window.location.href = "/eventlist";
+      }, 1000);
+
       console.log("Data updated successfully");
     } catch (error) {
       console.error("Error:", error);
@@ -68,86 +74,88 @@ const EditEventForm = ({ onSubmit, initialData }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Start Date
-        <input
-          type="date"
-          name="startDate"
-          value={formData.startDate}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        End Date
-        <input
-          type="date"
-          name="endDate"
-          value={formData.endDate}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Time
-        <input
-          type="text"
-          name="time"
-          placeholder="Placeholder"
-          value={formData.time}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Event Name
-        <input
-          type="text"
-          name="eventName"
-          placeholder="Placeholder"
-          value={formData.eventName}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Venue
-        <input
-          type="text"
-          name="venue"
-          placeholder="Placeholder"
-          value={formData.venue}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        City
-        <input
-          type="text"
-          name="city"
-          placeholder="Placeholder"
-          value={formData.city}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Contact
-        <input
-          type="text"
-          name="contact"
-          placeholder="Placeholder"
-          value={formData.contact}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Notes
-        <textarea
-          name="notes"
-          placeholder="Placeholder"
-          value={formData.notes}
-          onChange={handleChange}
-        />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Start Date
+          <input
+            type="date"
+            name="startDate"
+            value={formData.startDate}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          End Date
+          <input
+            type="date"
+            name="endDate"
+            value={formData.endDate}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Time
+          <input
+            type="text"
+            name="time"
+            placeholder="Placeholder"
+            value={formData.time}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Event Name
+          <input
+            type="text"
+            name="eventName"
+            placeholder="Placeholder"
+            value={formData.eventName}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Venue
+          <input
+            type="text"
+            name="venue"
+            placeholder="Placeholder"
+            value={formData.venue}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          City
+          <input
+            type="text"
+            name="city"
+            placeholder="Placeholder"
+            value={formData.city}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Contact
+          <input
+            type="text"
+            name="contact"
+            placeholder="Placeholder"
+            value={formData.contact}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Notes
+          <textarea
+            name="notes"
+            placeholder="Placeholder"
+            value={formData.notes}
+            onChange={handleChange}
+          />
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+    </>
   );
 };
 
