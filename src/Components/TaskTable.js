@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { TaskRow } from "./TaskRow";
 
-
-const   TaskTable = () => {
+const TaskTable = () => {
   const [tasks, setTasks] = useState([]);
   const [deletedId, setDeletedId] = useState(null);
   const { eventId } = useParams();
@@ -13,7 +12,7 @@ const   TaskTable = () => {
     const fetchTasks = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/Event/printtasks/${eventId}`,
+          `http://localhost:5000/Task/printtasks/${eventId}`,
           {
             method: "GET",
             headers: {
@@ -121,39 +120,38 @@ const   TaskTable = () => {
     console.log(updatedTask);
     // ... rest of the update logic
   };
-  
 
-//  const fetchTasks = async ({eventId}) =>  {
-//       fetch("http://localhost:5000/Event/printtasks/${eventId}")
-//       .then((response) => response.json())
-//       .then((data) => {
-//         setTasks(data);
-//       })
-//       .catch((error) => {
-//         console.error("Error fetching tasks:", error);
-//       });
-//   };
+  //  const fetchTasks = async ({eventId}) =>  {
+  //       fetch("http://localhost:5000/Event/printtasks/${eventId}")
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         setTasks(data);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching tasks:", error);
+  //       });
+  //   };
 
-  // useEffect(()=> {
-  //   fetchTasks();
-  // },[] );
+//   useEffect(()=> {
+//     fetchTasks();
+//   },[] );
 
-    const handleAddTask = () => {
-      // 假设跳转到添加任务的页面
-      navigate(`/tasks/add/${eventId}`);
-    };
+  const handleAddTask = () => {
+    // 假设跳转到添加任务的页面
+    navigate(`/tasks/add/${eventId}`);
+  };
 
   return (
     <div className="parent-container">
       <div className="TaskTable">
         <h2>Task List</h2>
-   
-          <button className="AddTask">Add Task</button>
+
+        <button className="AddTask">Add Task</button>
 
         <table className="TaskTabletMainTable">
           <thead>
             <tr>
-              <th>ID</th> 
+              <th>ID</th>
               <th>Month</th>
               <th>Contact</th>
               <th>TaskName</th>
