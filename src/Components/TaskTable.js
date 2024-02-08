@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { TaskRow } from "./TaskRow";
 
+
 const TaskTable = () => {
   const [tasks, setTasks] = useState([]);
   const [deletedId, setDeletedId] = useState(null);
@@ -145,8 +146,10 @@ const TaskTable = () => {
     <div className="parent-container">
       <div className="TaskTable">
         <h2>Task List</h2>
-
-        <button className="AddTask">Add Task</button>
+   
+        <Link to={`/addTask`}>
+          <button className="AddTask">Add Task</button>
+        </Link>
 
         <table className="TaskTabletMainTable">
           <thead>
