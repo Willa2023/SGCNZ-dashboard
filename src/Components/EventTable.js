@@ -45,6 +45,24 @@ const EventTable = () => {
     fetchEvents();
   }, [deletedId]); // Fetch events again when an event is deleted
 
+  const handleSort = () => {
+    const temp = [...events]; // Create a temporary copy of events
+    temp.sort();
+      const compare = (a,b) => {
+        if ( a.eventName < b.eventName ){
+          return -1;
+        }
+        else if ( a.eventName > b.eventName ){
+          return 1;
+        }
+        else 
+        return 0;
+      } 
+    temp.sort(compare);
+    // console.log(temp);
+    setEvents(temp);
+  };
+
   return (
     <div className="parent-container">
       <div className="EventTable">
@@ -82,7 +100,7 @@ const EventTable = () => {
               <th>Start Date</th>
               <th>End Date</th>
               <th>Time</th>
-              <th>EventName</th>
+              <th onClick={handleSort}>EventName</th>
               <th>Venue</th>
               <th>City</th>
               <th>Contact</th>
