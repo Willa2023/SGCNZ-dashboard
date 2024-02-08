@@ -20,7 +20,7 @@ export const EventRow = ({ event, onDelete }) => {
       <td>{event.contact}</td>
       <td>{event.notes}</td>
       <td>
-        <Link to={`/edit/${event.id}`}>
+        <Link to={`/editevent/${event.id}`}>
           <button className="edit-button">Edit</button>
         </Link>
         <button className="delete-button" onClick={handleDelete}>

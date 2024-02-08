@@ -50,7 +50,7 @@ const EventTable = () => {
       <div className="EventTable">
         <h2>Event List</h2>
 
-        <Link to={`/add`}>
+        <Link to={`/addevent`}>
           <button className="AddEvent">Add Event</button>
         </Link>
 

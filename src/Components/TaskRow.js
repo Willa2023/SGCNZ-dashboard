@@ -17,7 +17,7 @@ export const TaskRow = ({ task, onDelete }) => {
       <td>{task.phone}</td>
       <td>{task.notes}</td>
       <td>
-        <Link to={`/edit/${task.taskID}`}>
+        <Link to={`/edittask/${task.taskID}`}>
           <button className="edit-button">Edit</button>
         </Link>
         <button className="delete-button" onClick={handleDelete}>

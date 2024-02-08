@@ -99,8 +99,8 @@ public class TaskController : ControllerBase
                         reader.GetString("email"),
                         reader.GetString("phone"),
                         reader.GetString("notes"),
-                        " ",
-                        " "
+                        reader.GetString("taskID"),
+                        reader.GetString("eventID")
                     );
                     tasks.Add(t);
                 }
