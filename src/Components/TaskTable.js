@@ -151,7 +151,6 @@ const TaskTable = () => {
         <table className="TaskTabletMainTable">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Month</th>
               <th>Contact</th>
               <th>TaskName</th>

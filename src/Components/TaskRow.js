@@ -6,7 +6,6 @@ export const TaskRow = ({ task, onDelete }) => {
 
   return (
     <tr>
-      <td>{task.eventID}</td> 
       <td>{task.month}</td>
       <td>{task.contact}</td>
       <td>{task.taskName}</td>
