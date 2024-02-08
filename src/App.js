@@ -7,6 +7,7 @@ import NavBar from "./Components/NavBar";
 import TaskTable from "./Components/TaskTable";
 import EditTaskForm from "./Components/EditTask";
 import TaskOverviewForm from "./Components/TaskOverviewTable";
+import AddTaskForm from "./Components/AddTask";
 
 function App() {
   return (

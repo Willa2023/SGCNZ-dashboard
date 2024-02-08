@@ -106,8 +106,18 @@ public class TaskController : ControllerBase
                 }
             }
         }
-        return tasks;
+        List<Task> sortedTasks = sortTasksByMonth(tasks);
+        return sortedTasks;
     }
+
+    // Sorts array by month
+    public List<Task> sortTasksByMonth(List<Task> unsortedTasks)
+    {
+        List<Task> sortedTasks = unsortedTasks.OrderBy(task => task.month).ToList();
+
+        return sortedTasks;
+    }
+
 
     // Use endpoint "/Task/returnevents" to test this function ("it works")
     [HttpGet("returntasks")]
@@ -145,7 +155,6 @@ public class TaskController : ControllerBase
             command.Parameters.AddWithValue("@phone", taskData.phone);
             command.Parameters.AddWithValue("@notes", taskData.notes);
             command.Parameters.AddWithValue("@taskID", taskData.taskID);
-            //command.Parameters.AddWithValue("@Notes", eventData.Notes);
 
             command.ExecuteNonQuery();
 
