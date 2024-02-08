@@ -99,14 +99,30 @@ public class TaskController : ControllerBase
                         reader.GetString("email"),
                         reader.GetString("phone"),
                         reader.GetString("notes"),
-                        " ",
-                        " "
+                        reader.GetString("taskID"),
+                        reader.GetString("eventID")
                     );
                     tasks.Add(t);
                 }
             }
         }
         return tasks;
+    }
+
+    public List<Task> sortTasksByMonth(List<Task> unsortedTasks)
+    {
+        List<Task> sortedTasks = new List<Task>();
+
+        foreach (Task task in unsortedTasks)
+        {
+            if (task.month.equals("March"))
+            {
+                int march = 3;
+            }
+            sortedTasks.add(task);
+        }
+
+        return sortedTasks;
     }
 
     // Use endpoint "/Task/returnevents" to test this function ("it works")
