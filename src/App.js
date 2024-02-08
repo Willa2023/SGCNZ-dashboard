@@ -16,8 +16,9 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/eventlist" element={<EventTable />} />
-          <Route path="/editevent/:eventId" element={<EditEventForm />} />
-          <Route path="/addevent" element={<AddEventForm />} />
+          <Route path="/edit/:eventId" element={<EditEventForm />} />
+          <Route path="/add" element={<AddEventForm />} />
+          <Route path="/addTask/:eventId" element={<AddTaskForm />} />
           <Route path="/task/:eventId" element={<TaskTable />} />
           <Route path="/edittask/:taskId" element={<EditTaskForm />} />
           {/* <Route path="/addtask" element={<AddTaskForm />} /> */}

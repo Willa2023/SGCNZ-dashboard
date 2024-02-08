@@ -1,16 +1,21 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 
 const AddTaskForm = () => {
+  const { eventId } = useParams();
   const [formData, setFormData] = useState({
     month: "",
-    contactName: "",
+    contact: "",
     taskName: "",
-    Status: "",
+    status: "",
     email: "",
     phone: "",
     notes: "",
+    taskID: "",
+    eventID:eventId,
   });
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +26,7 @@ const AddTaskForm = () => {
     e.preventDefault();
     try {
       // Make a POST request to the specified endpoint
-      const response = await fetch("http://localhost:5000/Event/add", {
+      const response = await fetch("http://localhost:5000/Task/addtask", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +44,7 @@ const AddTaskForm = () => {
       alert("Event added successfully");
 
       setTimeout(function () {
-        window.location.href = "/eventlist";
+       window.location.href = "/task/${e.eventID}";
       }, 1000);
 
       // // Optionally reset form after submit
@@ -85,7 +90,7 @@ const AddTaskForm = () => {
           type="text"
           name="month"
           placeholder="Input event month here..."
-          value={formData.time}
+          value={formData.month}
           onChange={handleChange}
         />
       </label>
@@ -93,9 +98,9 @@ const AddTaskForm = () => {
         Contact Name
         <input
           type="text"
-          name="contactName"
+          name="contact"
           placeholder="Input event name here..."
-          value={formData.contactName}
+          value={formData.contact}
           onChange={handleChange}
         />
       </label>

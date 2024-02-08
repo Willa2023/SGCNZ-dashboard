@@ -147,7 +147,7 @@ const TaskTable = () => {
       <div className="TaskTable">
         <h2>Task List</h2>
    
-        <Link to={`/addTask`}>
+        <Link to={`/addTask/${eventId}`}>
           <button className="AddTask">Add Task</button>
         </Link>
 
