@@ -118,6 +118,58 @@ public class TaskController : ControllerBase
         return sortedTasks;
     }
 
+[HttpGet("gettask/{taskId}")]
+public ActionResult<Task> GetTaskById(string taskId)
+{
+    try
+    {
+        Task task = null;
+        string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            string query = "SELECT * FROM tasklist WHERE taskID = @taskId";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@taskId", taskId);
+
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        task = new Task(
+                            reader.GetString("month"),
+                            reader.GetString("contact"),
+                            reader.GetString("taskName"),
+                            reader.GetString("status"),
+                            reader.GetString("email"),
+                            reader.GetString("phone"),
+                            reader.GetString("notes"),
+                            reader.GetString("taskID"),
+                            reader.GetString("eventID")
+                        );
+                    }
+                }
+            }
+        }
+
+        if (task != null)
+        {
+            return Ok(task);
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
+
 
     // Use endpoint "/Task/returnevents" to test this function ("it works")
     [HttpGet("returntasks")]

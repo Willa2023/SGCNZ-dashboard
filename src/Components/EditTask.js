@@ -1,44 +1,70 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-const EditTaskForm = ({ onSubmit, initialData }) => {
-  const [formData, setFormData] = useState(initialData);
-  const { taskId } = useParams();
-
+const EditTaskForm = () => {
+  const {taskId} = useParams(); //Grab the task ID from the URL
+  const navigate = useNavigate(); 
+  const [formData, setFormData] = useState({
+    month: "",
+    contact: "",
+    taskName: "",
+    status: "",
+    email: "",
+    phone: "",
+    notes: "",
+    eventID: "",
+  });
+  
   useEffect(() => {
-    const fetchTaskData = async (taskId) => {
+    // Fetch task data from the server
+    const fetchTaskData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:5000/Task/showById/${taskId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const taskData = await response.json();
-        setFormData(taskData);
+        const response = await fetch(`http://localhost:5000/Task/gettask/${taskId}`);
+        if (!response.ok) throw new Error('Could not fetch task data');
+        const data = await response.json();
+        setFormData(data); // Assuming the API returns the exact task object format
       } catch (error) {
-        console.error("Error fetching event data:", error);
+        console.error('Fetch error:', error);
       }
     };
-    fetchTaskData(taskId); // Pass taskId as an argument here
+
+    fetchTaskData();
   }, [taskId]);
 
-  useEffect(() => {
-    var currentUrl = window.location.pathname;
-    var parts = currentUrl.split("/");
-    var uuid = parts[parts.length - 1];
-    setFormData((prevState) => ({
-      ...prevState,
-      taskID: uuid,
-    }));
-  }, []);
+  // useEffect(() => {
+  //   const fetchTaskData = async (taskId) => {
+  //     try {
+  //       const response = await fetch(
+  //         `http://localhost:5000/Task/showById/${taskId}`,
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       const taskData = await response.json();
+  //       setFormData(taskData);
+  //     } catch (error) {
+  //       console.error("Error fetching event data:", error);
+  //     }
+  //   };
+  //   fetchTaskData(taskId); // Pass taskId as an argument here
+  // }, [taskId]);
+
+  // useEffect(() => {
+  //   var currentUrl = window.location.pathname;
+  //   var parts = currentUrl.split("/");
+  //   var uuid = parts[parts.length - 1];
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     taskID: uuid,
+  //   }));
+  // }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,7 +73,7 @@ const EditTaskForm = ({ onSubmit, initialData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    // onSubmit(formData);
     try {
       const response = await fetch("http://localhost:5000/Task/edit", {
         method: "PUT",
@@ -63,9 +89,11 @@ const EditTaskForm = ({ onSubmit, initialData }) => {
 
       alert("Task updated successfully");
       
-      setTimeout(function () {
-        window.location.href = `/eventlist/`;
-      }, 1000);
+      // setTimeout(function () {
+      //   window.location.href = `/eventlist/`;
+      // }, 1000);
+
+      navigate(`/task/${formData.eventID}`);
   
 
       console.log("Data updated successfully");
@@ -155,18 +183,18 @@ const EditTaskForm = ({ onSubmit, initialData }) => {
 };
 
 // Default props for the form in case you need default values
-EditTaskForm.defaultProps = {
-  initialData: {
-    month: "",
-    contact: "",
-    taskName: "",
-    status: "",
-    email: "",
-    phone: "",
-    notes: "",
-    eventID: "",
-  },
-  onSubmit: () => {}, // Dummy function for example
-};
+// EditTaskForm.defaultProps = {
+//   initialData: {
+//     month: "",
+//     contact: "",
+//     taskName: "",
+//     status: "",
+//     email: "",
+//     phone: "",
+//     notes: "",
+//     eventID: "",
+//   },
+//   onSubmit: () => {}, // Dummy function for example
+// };
 
 export default EditTaskForm;
