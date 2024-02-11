@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 
 
 const AddTaskForm = () => {
   const { eventId } = useParams();
+  const navigate = useNavigate(); 
+
   const [formData, setFormData] = useState({
     month: "",
     contact: "",
@@ -41,11 +43,14 @@ const AddTaskForm = () => {
 
       console.log("Event added successfully");
 
-      alert("Event added successfully");
+      alert("Task added successfully");
+      
+      navigate(`/task/${eventId}`);
+    
 
-      setTimeout(function () {
-       window.location.href = "/task/${e.eventID}";
-      }, 1000);
+      // setTimeout(function () {
+      //  window.location.href = "/task/${e.eventID}";
+      // }, 1000);
 
       // // Optionally reset form after submit
       // setFormData({

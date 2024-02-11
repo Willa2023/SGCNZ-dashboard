@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddEventForm = () => {
+  const navigate = useNavigate();
+ 
   const [formData, setFormData] = useState({
     id: "",
     startDate: "",
@@ -39,9 +42,10 @@ const AddEventForm = () => {
 
       alert("Event added successfully");
 
-      setTimeout(function () {
-        window.location.href = "/eventlist";
-      }, 1000);
+      // setTimeout(function () {
+      //   window.location.href = "/eventlist";
+      // }, 1000);
+      navigate(`/eventlist`);
 
       // Optionally reset form after submit
       setFormData({
