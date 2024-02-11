@@ -134,15 +134,21 @@ const EditTaskForm = () => {
           />
         </label>
         <label>
-          Status
-          <input
-            type="text"
-            name="status"
-           // placeholder="Edit event name here..."
-            value={formData.status}
-            onChange={handleChange}
-          />
-        </label>
+        Status
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+        >
+          <option value="">Select status</option>
+          <option value="Not Started">Not Started</option>
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+          
+        </select>
+      </label>
+
         <label>
           Email
           <input
