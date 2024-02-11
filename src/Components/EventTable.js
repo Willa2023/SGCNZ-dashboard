@@ -23,21 +23,28 @@ const EventTable = () => {
   };
   // add delete function
   const onDelete = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:5000/Event/delete/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    // confirm delete alerts
+    const confirmDelete = window.confirm("Are you sure to delete this item?");
+    if (confirmDelete) {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/Event/delete/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Event deleted successfully");
+        setDeletedId(id);
+      } catch (error) {
+        console.error("Error:", error);
       }
-      console.log("Event deleted successfully");
-      setDeletedId(id);
-    } catch (error) {
-      console.error("Error:", error);
     }
   };
 
@@ -48,16 +55,13 @@ const EventTable = () => {
   const handleSort = () => {
     const temp = [...events]; // Create a temporary copy of events
     temp.sort();
-      const compare = (a,b) => {
-        if ( a.eventName < b.eventName ){
-          return -1;
-        }
-        else if ( a.eventName > b.eventName ){
-          return 1;
-        }
-        else 
-        return 0;
-      } 
+    const compare = (a, b) => {
+      if (a.eventName < b.eventName) {
+        return -1;
+      } else if (a.eventName > b.eventName) {
+        return 1;
+      } else return 0;
+    };
     temp.sort(compare);
     // console.log(temp);
     setEvents(temp);

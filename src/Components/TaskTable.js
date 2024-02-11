@@ -63,32 +63,33 @@ const TaskTable = () => {
   }, [eventId]); // 当eventId改变时，重新加载数据
 
   const onDelete = async (taskID) => {
-    console.log("Hello");
-    console.log(taskID);
-    try {
-      console.log(
-        `Request URL: http://localhost:5000/Event/deletetask/${taskID}`
-      );
+    const confirmDelete = window.confirm("Are you sure to delete this item?");
+    if (confirmDelete) {
+      try {
+        console.log(
+          `Request URL: http://localhost:5000/Event/deletetask/${taskID}`
+        );
 
-      const response = await fetch(
-        `http://localhost:5000/Event/deletetask/${taskID}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
+        const response = await fetch(
+          `http://localhost:5000/Event/deletetask/${taskID}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+        console.log("Event deleted successfully");
+        setDeletedId(taskID);
+        // 直接调用fetchTasks而不是设置deletedId，以重新加载更新后的任务列表
+        fetchTasks();
+      } catch (error) {
+        console.error("Error:", error);
       }
-      console.log("Event deleted successfully");
-      setDeletedId(taskID);
-      // 直接调用fetchTasks而不是设置deletedId，以重新加载更新后的任务列表
-      fetchTasks();
-    } catch (error) {
-      console.error("Error:", error);
     }
   };
 
