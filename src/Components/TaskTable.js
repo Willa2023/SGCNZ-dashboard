@@ -108,6 +108,20 @@ const TaskTable = () => {
     navigate(`/tasks/add/${eventId}`);
   };
 
+  const handleSort = () => {
+    const temp = [...tasks]; // Create a temporary copy of events
+    const compare = (a, b) => {
+      if (a.month < b.month) {
+        return -1;
+      } else if (a.month > b.month) {
+        return 1;
+      } else return 0;
+    };
+    temp.sort(compare);
+    // console.log(temp);
+    setTasks(temp);
+  };
+
   return (
     <div className="parent-container">
       <div className="TaskTable">
@@ -121,7 +135,7 @@ const TaskTable = () => {
         <table className="TaskTabletMainTable">
           <thead>
             <tr>
-              <th>Month</th>
+            <th onClick={handleSort} id="taskMonthth">Month</th>
               <th>Contact</th>
               <th>TaskName</th>
               <th>Status</th>

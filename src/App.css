@@ -126,6 +126,10 @@ margin-top: 50px;
   color: white; 
 }
 
+.startDateEventth:hover{
+  text-decoration: underline;
+}
+
 .EventTableMainTable {
   border-collapse: collapse;
   width: 100%;
