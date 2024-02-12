@@ -70,12 +70,10 @@ const EventTable = () => {
     <div className="parent-container">
       <div className="EventTable">
         <h2>Event List</h2>
-
+        <div className="rowC">
         <Link to={`/addevent`}>
           <button className="AddEvent">Add Event</button>
         </Link>
-
-        <div>
           <label htmlFor="yearSelect">Select Year: </label>
           <select
             id="yearSelect"

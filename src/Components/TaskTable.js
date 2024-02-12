@@ -142,6 +142,7 @@ const TaskTable = () => {
         </Link>
 
         <table className="TaskTableMainTable">
+        <table className="TaskTableMainTable">
           <thead>
             <tr>
               <th id="taskMonthth">
