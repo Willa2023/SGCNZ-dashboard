@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams} from "react-router-dom";
 import { TaskRow } from "./TaskRow";
 
 const TaskTable = () => {
@@ -51,6 +51,7 @@ const TaskTable = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      data.sort((a, b) => monthOrderMap[a.month] - monthOrderMap[b.month]);
       setTasks(data);
     } catch (error) {
       console.error("Error fetching event data:", error);
@@ -97,30 +98,38 @@ const TaskTable = () => {
     fetchTasks();
   }, [deletedId]);
 
-  const handleUpdateTask = (updatedTask) => {
-    // Logic to update the task in the state or backend
-    console.log(updatedTask);
-    // ... rest of the update logic
+  // const handleUpdateTask = (updatedTask) => {
+  //   // Logic to update the task in the state or backend
+  //   console.log(updatedTask);
+  //   // ... rest of the update logic
+  // };
+
+  // const handleAddTask = () => {
+  //   // 假设跳转到添加任务的页面
+  //   navigate(`/tasks/add/${eventId}`);
+  // };
+
+  const monthOrderMap = {
+    January: 1,
+    February: 2,
+    March: 3,
+    April: 4,
+    May: 5,
+    June: 6,
+    July: 7,
+    August: 8,
+    September: 9,
+    October: 10,
+    November: 11,
+    December: 12,
   };
 
-  const handleAddTask = () => {
-    // 假设跳转到添加任务的页面
-    navigate(`/tasks/add/${eventId}`);
-  };
-
-  const handleSort = () => {
-    const temp = [...tasks]; // Create a temporary copy of events
-    const compare = (a, b) => {
-      if (a.month < b.month) {
-        return -1;
-      } else if (a.month > b.month) {
-        return 1;
-      } else return 0;
-    };
-    temp.sort(compare);
-    // console.log(temp);
-    setTasks(temp);
-  };
+  // const handleSort = () => {
+  //   const temp = [...tasks]; // 创建事件的临时副本
+  //   // 比较函数根据月份顺序排序
+  //   temp.sort((a, b) => monthOrderMap[a.month] - monthOrderMap[b.month]);
+  //   setTasks(temp);
+  // };
 
   return (
     <div className="parent-container">
@@ -132,10 +141,12 @@ const TaskTable = () => {
           <button className="AddTask">Add Task</button>
         </Link>
 
-        <table className="TaskTabletMainTable">
+        <table className="TaskTableMainTable">
           <thead>
             <tr>
-            <th onClick={handleSort} id="taskMonthth">Month</th>
+              <th id="taskMonthth">
+                Month
+              </th>
               <th>Contact</th>
               <th>TaskName</th>
               <th>Status</th>
