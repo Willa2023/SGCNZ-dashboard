@@ -11,10 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]")]
 public class TaskController : ControllerBase
 {
-    private string awsRdsEndpoint = "dawndatabase.chsgqwkqwl9s.ap-southeast-2.rds.amazonaws.com";
+    private string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
     private string awsRdsDatabase = "dawndatabase";
     private string awsRdsUsername = "admin";
-    private string awsRdsPassword = "Thoughthisbemadnessyetthereismethodinit1!";
+    private string awsRdsPassword = "willawilla";
+    // private string awsRdsEndpoint = "dawndatabase.chsgqwkqwl9s.ap-southeast-2.rds.amazonaws.com";
+    // private string awsRdsDatabase = "dawndatabase";
+    // private string awsRdsUsername = "admin";
+    // private string awsRdsPassword = "Thoughthisbemadnessyetthereismethodinit1!";
 
     public List<Task> ReadTaskFile()
     {
