@@ -11,15 +11,15 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]")]
 public class TaskController : ControllerBase
 {
-    private string awsRdsEndpoint = "reactblogdatabase.cf8sld5urrxi.ap-southeast-2.rds.amazonaws.com";
+    private string awsRdsEndpoint = "dawndatabase.chsgqwkqwl9s.ap-southeast-2.rds.amazonaws.com";
     private string awsRdsDatabase = "dawndatabase";
     private string awsRdsUsername = "admin";
-    private string awsRdsPassword = "willawilla";
+    private string awsRdsPassword = "Thoughthisbemadnessyetthereismethodinit1!";
 
     public List<Task> ReadTaskFile()
     {
         List<Task> tasks = new List<Task>();
-        string filepath = "NSSPTaskList.xlsx";
+        string filepath = "BardsBirthdayDinner.xlsx";
 
         using (ExcelPackage excelFile = new ExcelPackage(new FileInfo(filepath)))
         {
@@ -67,6 +67,7 @@ public class TaskController : ControllerBase
             command.Parameters.AddWithValue("@phone", t.phone);
             command.Parameters.AddWithValue("@notes", t.notes);
             command.Parameters.AddWithValue("@taskID", t.taskID);
+            // HARD CODE EVENT ID
             command.Parameters.AddWithValue("@eventID", "03ef55b2-767f-46df-82dd-3bf50938c8ea");
             command.ExecuteNonQuery();
         }
@@ -106,68 +107,59 @@ public class TaskController : ControllerBase
                 }
             }
         }
-        List<Task> sortedTasks = sortTasksByMonth(tasks);
         return sortedTasks;
     }
 
-    // Sorts array by month
-    public List<Task> sortTasksByMonth(List<Task> unsortedTasks)
+    [HttpGet("gettask/{taskId}")]
+    public ActionResult<Task> GetTaskById(string taskId)
     {
-        List<Task> sortedTasks = unsortedTasks.OrderBy(task => task.month).ToList();
-
-        return sortedTasks;
-    }
-
-[HttpGet("gettask/{taskId}")]
-public ActionResult<Task> GetTaskById(string taskId)
-{
-    try
-    {
-        Task task = null;
-        string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        try
         {
-            connection.Open();
-            string query = "SELECT * FROM tasklist WHERE taskID = @taskId";
-
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            Task task = null;
+            string connectionString = $"Server={awsRdsEndpoint};Database={awsRdsDatabase};User Id={awsRdsUsername};Password={awsRdsPassword}";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                command.Parameters.AddWithValue("@taskId", taskId);
+                connection.Open();
+                string query = "SELECT * FROM tasklist WHERE taskID = @taskId";
 
-                using (MySqlDataReader reader = command.ExecuteReader())
+                using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    if (reader.Read())
+                    command.Parameters.AddWithValue("@taskId", taskId);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        task = new Task(
-                            reader.GetString("month"),
-                            reader.GetString("contact"),
-                            reader.GetString("taskName"),
-                            reader.GetString("status"),
-                            reader.GetString("email"),
-                            reader.GetString("phone"),
-                            reader.GetString("notes"),
-                            reader.GetString("taskID"),
-                            reader.GetString("eventID")
-                        );
+                        if (reader.Read())
+                        {
+                            task = new Task(
+                                reader.GetString("month"),
+                                reader.GetString("contact"),
+                                reader.GetString("taskName"),
+                                reader.GetString("status"),
+                                reader.GetString("email"),
+                                reader.GetString("phone"),
+                                reader.GetString("notes"),
+                                reader.GetString("taskID"),
+                                reader.GetString("eventID")
+                            );
+                        }
                     }
                 }
             }
-        }
 
-        if (task != null)
-        {
-            return Ok(task);
+            if (task != null)
+            {
+                return Ok(task);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            return NotFound();
+            return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Internal server error: {ex.Message}");
-    }
-}
 
 
 
