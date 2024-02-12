@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { TaskRow } from "./TaskRow";
 
@@ -31,9 +31,10 @@ const TaskTable = () => {
         console.error("Error fetching event data:", error);
       }
     };
-    fetchEventData(eventId); 
+    fetchEventData(eventId); // Pass eventId as an argument here
   }, [eventId]);
 
+  // 定义fetchTasks函数，用于获取任务数据
   const fetchTasks = async () => {
     try {
       const response = await fetch(
@@ -56,9 +57,10 @@ const TaskTable = () => {
     }
   };
 
+  // 使用useEffect钩子来初始化和更新任务数据
   useEffect(() => {
     fetchTasks();
-  }, [eventId]); 
+  }, [eventId]); // 当eventId改变时，重新加载数据
 
   const onDelete = async (taskID) => {
     const confirmDelete = window.confirm("Are you sure to delete this item?");
@@ -78,14 +80,16 @@ const TaskTable = () => {
           }
         );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Event deleted successfully");
+        setDeletedId(taskID);
+        // 直接调用fetchTasks而不是设置deletedId，以重新加载更新后的任务列表
+        fetchTasks();
+      } catch (error) {
+        console.error("Error:", error);
       }
-      console.log("Event deleted successfully");
-      setDeletedId(taskID);
-      fetchTasks();
-    } catch (error) {
-      console.error("Error:", error);
     }
   };
 
@@ -94,10 +98,13 @@ const TaskTable = () => {
   }, [deletedId]);
 
   const handleUpdateTask = (updatedTask) => {
+    // Logic to update the task in the state or backend
     console.log(updatedTask);
+    // ... rest of the update logic
   };
 
   const handleAddTask = () => {
+    // 假设跳转到添加任务的页面
     navigate(`/tasks/add/${eventId}`);
   };
 

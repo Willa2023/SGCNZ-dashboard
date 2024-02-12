@@ -451,3 +451,31 @@ add task button */
   margin-right: 5px;
 }
 
+.nav-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  /* background-color: #d6d3d3;  */
+  padding: 10px 0; 
+}
+
+.nav-container button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #d2d7da;
+  color: #0b0b0b;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.nav-container button:hover {
+  background-color: #b3bdc2;
+}
+
+.nav-container button:focus {
+  outline: none;
+}
+
+
