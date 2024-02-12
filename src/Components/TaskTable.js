@@ -6,7 +6,7 @@ const TaskTable = () => {
   const [tasks, setTasks] = useState([]);
   const [deletedId, setDeletedId] = useState(null);
   const { eventId } = useParams();
-  const navigate = useNavigate();
+
   const [eventTitle, setEventTitle] = useState(null);
 
   useEffect(() => {
@@ -142,7 +142,6 @@ const TaskTable = () => {
         </Link>
 
         <table className="TaskTableMainTable">
-        <table className="TaskTableMainTable">
           <thead>
             <tr>
               <th id="taskMonthth">
@@ -169,6 +168,7 @@ const TaskTable = () => {
         </table>
       </div>
     </div>
+
   );
 };
 
