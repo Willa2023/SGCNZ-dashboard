@@ -109,7 +109,6 @@ public class EventController : ControllerBase
                         reader.GetString("City"),
                         reader.GetString("Contact"),
                         reader.GetString("Notes")
-
                     );
 
                     events.Add(e);
@@ -175,8 +174,7 @@ public class EventController : ControllerBase
     {
         try
         {
-            // List<Event> events = ReadFromDatabase();
-            //SaveTaskstoDatabase(ReadTaskFile());
+            SaveEventsToDatabase(ReadEventFile());
 
             return Ok("IT WORKS...(EVENT PAGE)");
         }

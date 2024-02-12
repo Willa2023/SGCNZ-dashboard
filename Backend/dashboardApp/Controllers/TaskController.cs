@@ -19,7 +19,7 @@ public class TaskController : ControllerBase
     public List<Task> ReadTaskFile()
     {
         List<Task> tasks = new List<Task>();
-        string filepath = "BardsBirthdayDinner.xlsx";
+        string filepath = "NSSPTaskList.xlsx";
 
         using (ExcelPackage excelFile = new ExcelPackage(new FileInfo(filepath)))
         {
@@ -68,7 +68,7 @@ public class TaskController : ControllerBase
             command.Parameters.AddWithValue("@notes", t.notes);
             command.Parameters.AddWithValue("@taskID", t.taskID);
             // HARD CODE EVENT ID
-            command.Parameters.AddWithValue("@eventID", "");
+            command.Parameters.AddWithValue("@eventID", "03ef55b2-767f-46df-82dd-3bf50938c8ea");
             command.ExecuteNonQuery();
         }
     }
@@ -107,7 +107,7 @@ public class TaskController : ControllerBase
                 }
             }
         }
-        return sortedTasks;
+        return tasks;
     }
 
     [HttpGet("gettask/{taskId}")]
@@ -163,13 +163,13 @@ public class TaskController : ControllerBase
 
 
 
-    // Use endpoint "/Task/returnevents" to test this function ("it works")
+    // Use endpoint "/Task/returntasks" to test this function ("it works")
     [HttpGet("returntasks")]
     public ActionResult<IEnumerable<Task>> callSaveMethods()
     {
         try
         {
-            //SaveTaskstoDatabase(ReadTaskFile());
+            SaveTaskstoDatabase(ReadTaskFile());
 
             return Ok("IT WORKS... (TASKS)");
         }
