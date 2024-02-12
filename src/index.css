@@ -11,3 +11,60 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.task-overview-container {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin: 20px;
+}
+
+.task-overview-container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.task-overview-container th,
+.task-overview-container td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Make the first row of headers sticky */
+.task-overview-container thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f2f2f2;
+  z-index: 3; /* Higher than the month column to ensure it stays on top */
+}
+
+/* Make the month column sticky */
+.task-overview-container th:first-child,
+.task-overview-container td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #fff;
+  z-index: 2; /* Ensures it stays below the sticky headers but above other content */
+}
+
+.event-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.even-event {
+  background-color: #f2f2f2; /* 浅灰色背景 */
+}
+
+.odd-event {
+  background-color: red; /* 略深的灰色背景 */
+}
+
+.task-details span {
+  display: block; /* 或其他布局方式，确保任务名称、状态和谁在列中垂直排列 */
+}
+
+
+
+

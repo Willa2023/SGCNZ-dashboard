@@ -1,103 +1,71 @@
 import React, { useState, useEffect } from 'react';
 
-const TodoList = () => {
-  const [eventTitles, setEventTitles] = useState([]);
-  const [todos, setTodos] = useState([]);
+function TaskOverviewTable() {
+  const [events, setEvents] = useState([]);
+  const [tasks, setTasks] = useState({});
 
-  const handleAddEvent = () => {
-    const newEventTitle = `Event ${eventTitles.length + 1}`;
-    setEventTitles([...eventTitles, newEventTitle]);
-
-    // Initialize todos for the new event with the same structure as the first event
-    const newTodos = todos.map(todo => ({ ...todo, month: newEventTitle }));
-    setTodos([...todos, ...newTodos]);
-  };
-
-  const handleStatusChange = (index, status) => {
-    const updatedTodos = [...todos];
-    updatedTodos[index].status = status;
-    setTodos(updatedTodos);
-  };
-
-  //test
   useEffect(() => {
-    const EventTitles = ['Event 1', 'Event 2', 'Event 3'];
-    const Todos = [
-      { month: 'Jan', name: 'Task 1', status: 'notStarted' },
-      { month: 'Feb', name: 'Task 2', status: 'doing' },
-      { month: 'March', name: 'Task 3', status: 'done' },
-      { month: 'April', name: 'Task 4', status: 'notStarted' },
-      { month: 'May', name: 'Task 5', status: 'doing' },
-      { month: 'June', name: 'Task 6', status: 'done' },
-    ];
-
-    setEventTitles(EventTitles);
-    setTodos(Todos);
+    fetch('http://localhost:5000/Event/printevents')
+      .then(response => response.json())
+      .then(data => {
+        setEvents(data);
+        data.forEach(event => {
+          fetch(`http://localhost:5000/Task/printtasks/${event.id}`)
+            .then(response => response.json())
+            .then(taskData => {
+              setTasks(prevTasks => ({
+                ...prevTasks,
+                [event.id]: taskData,
+              }));
+            });
+        });
+      });
   }, []);
 
-  // useEffect(() => {
-  //   // Simulating fetching data from a file
-  //   const fetchData = async () => {
-  //     // Fetch your data here, for example using fetch or axios
-  //     const response = await fetch('your/file/path/data.json');
-  //     const data = await response.json();
-
-  //     // Update state with fetched data
-  //     setEventTitles(data.eventTitles);
-  //     setTodos(data.todos);
-  //   };
-
-  //   fetchData();
-  // }, []); // Empty dependency array ensures useEffect runs only once on component mount
-
   return (
-    <div className="todo-container">
-      <table className="todo-month">
+    <div className="task-overview-container">
+      <table>
         <thead>
-          <tr className="event-title">
-            {eventTitles.map((title, index) => (
-              <th key={index} colSpan="4">
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setEventTitles([...eventTitles.slice(0, index), e.target.value, ...eventTitles.slice(index + 1)])}
-                />
-              </th>
-            ))}
-            <th>
-              <button onClick={handleAddEvent}>Add Event</button>
-            </th>
-          </tr>
-          <tr className="todo-item">
+          <tr>
             <th>Month</th>
-            <th>Task</th>
-            <th>Status</th>
-            <th>Who</th>
+            {events.map(event => (
+              <th key={event.id} colSpan="3">{event.eventName}</th>
+            ))}
+          </tr>
+          <tr>
+            <td></td> {/* 空单元格对应月份列 */}
+            {events.map(event => (
+              <React.Fragment key={`sub-titles-${event.id}`}>
+                <td>Task Name</td>
+                <td>Status</td>
+                <td>Who</td>
+              </React.Fragment>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {todos.map((todo, index) => (
-            <tr key={index} className="todo-item">
-              <td>{todo.month}</td>
-              <td>{todo.name}</td>
-              <td>
-                <select
-                  className="todo-status"
-                  value={todo.status}
-                  onChange={(e) => handleStatusChange(index, e.target.value)}
-                >
-                  <option value="done">Done</option>
-                  <option value="doing">Doing</option>
-                  <option value="notStarted">Not Started</option>
-                </select>
-              </td>
-              <td>Who</td>
-            </tr>
+          {Object.entries(tasks).map(([eventId, eventTasks]) => (
+            eventTasks.map(task => (
+              <tr key={task.taskID}>
+                <td>{task.month}</td>
+                {events.map(event => (
+                  event.id === eventId
+                  ? <React.Fragment key={`task-details-${event.id}-${task.taskID}`}>
+                      <td>{task.taskName}</td>
+                      <td>{task.status}</td>
+                      <td>{task.who}</td>
+                    </React.Fragment>
+                  : <React.Fragment key={`empty-${event.id}-${task.taskID}`}>
+                      <td></td><td></td><td></td>
+                    </React.Fragment>
+                ))}
+              </tr>
+            ))
           ))}
         </tbody>
       </table>
     </div>
   );
-};
+}
 
-export default TodoList;
+export default TaskOverviewTable;
