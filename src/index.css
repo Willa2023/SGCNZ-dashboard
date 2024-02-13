@@ -65,6 +65,41 @@ code {
   display: block; /* 或其他布局方式，确保任务名称、状态和谁在列中垂直排列 */
 }
 
+.selector {
+  font-size: 16px;
+  padding: 8px 12px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 10px; /* Add space below the selector */
+}
+
+.selector:hover {
+  border-color: #999;
+}
+
+.selector:focus {
+  border-color: #555;
+}
+
+/* If you want to style the dropdown arrow */
+.selector::after {
+  content: '\25BC'; /* Unicode character for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.filter {
+  text-align: left;
+}
+
+
+
 
 
 

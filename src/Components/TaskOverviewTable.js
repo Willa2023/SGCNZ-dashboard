@@ -48,8 +48,8 @@ function TaskOverviewTable() {
   return (
     <div className="task-overview-container">
       <div>
-        <h3>Filter by Month:</h3>
-        <select onChange={(e) => handleMonthFilter(e.target.value)}>
+        <h3 className="filter">Filter by Month:</h3>
+        <select onChange={(e) => handleMonthFilter(e.target.value)} className="selector">
           <option value="">All</option>
           <option value="January">January</option>
           <option value="February">February</option>
