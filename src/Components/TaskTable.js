@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { TaskRow } from "./TaskRow";
 
 const TaskTable = () => {
@@ -68,11 +68,11 @@ const TaskTable = () => {
     if (confirmDelete) {
       try {
         console.log(
-          `Request URL: http://localhost:5000/Event/deletetask/${taskID}`
+          `Request URL: http://localhost:5000/Task/deletetask/${taskID}`
         );
 
         const response = await fetch(
-          `http://localhost:5000/Event/deletetask/${taskID}`,
+          `http://localhost:5000/Task/deletetask/${taskID}`,
           {
             method: "DELETE",
             headers: {
@@ -144,9 +144,7 @@ const TaskTable = () => {
         <table className="TaskTableMainTable">
           <thead>
             <tr>
-              <th id="taskMonthth">
-                Month
-              </th>
+              <th id="taskMonthth">Month</th>
               <th>Contact</th>
               <th>TaskName</th>
               <th>Status</th>
@@ -168,7 +166,6 @@ const TaskTable = () => {
         </table>
       </div>
     </div>
-
   );
 };
 
