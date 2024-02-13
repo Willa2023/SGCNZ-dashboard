@@ -72,7 +72,7 @@ public class TaskController : ControllerBase
             command.Parameters.AddWithValue("@notes", t.notes);
             command.Parameters.AddWithValue("@taskID", t.taskID);
             // HARD CODE EVENT ID
-            command.Parameters.AddWithValue("@eventID", "03ef55b2-767f-46df-82dd-3bf50938c8ea");
+            command.Parameters.AddWithValue("@eventID", "5c2904ba-564c-411c-9845-571f4a719866");
             command.ExecuteNonQuery();
         }
     }
