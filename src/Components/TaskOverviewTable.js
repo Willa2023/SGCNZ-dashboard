@@ -16,9 +16,10 @@ function TaskOverviewTable() {
           fetch(`http://localhost:5000/Task/printtasks/${event.id}`)
             .then(response => response.json())
             .then(taskData => {
+              const sortedTasks = taskData.sort((a, b) => monthOrderMap[a.month] - monthOrderMap[b.month]);
               setTasks(prevTasks => ({
                 ...prevTasks,
-                [event.id]: taskData,
+                [event.id]: sortedTasks,
               }));
             });
         });
@@ -27,6 +28,21 @@ function TaskOverviewTable() {
 
   const handleMonthFilter = (month) => {
     setSelectedMonth(month);
+  };
+
+  const monthOrderMap = {
+    January: 1,
+    February: 2,
+    March: 3,
+    April: 4,
+    May: 5,
+    June: 6,
+    July: 7,
+    August: 8,
+    September: 9,
+    October: 10,
+    November: 11,
+    December: 12,
   };
 
   return (
