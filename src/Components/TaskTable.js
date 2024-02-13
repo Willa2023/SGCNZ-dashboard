@@ -84,7 +84,7 @@ const TaskTable = () => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        console.log("Event deleted successfully");
+        console.log("Task deleted successfully");
         setDeletedId(taskID);
         // 直接调用fetchTasks而不是设置deletedId，以重新加载更新后的任务列表
         fetchTasks();
