@@ -1,10 +1,32 @@
-import React, { useState } from "react";
-import { useNavigate,useParams } from "react-router-dom";
+/*
+  This component represents a form for adding new tasks associated with a specific event.
+  It allows users to input various details of the task and submit the form to add the task to the database.
 
+  - React, useState: Imported from "react" for state management.
+  - useNavigate, useParams: Imported from "react-router-dom" for programmatic navigation and accessing URL parameters.
+
+  - Props:
+    - eventId: Obtained from URL parameters using useParams() to identify the event to which the task belongs.
+
+  - State:
+    - formData: State variable to store form data including task details.
+
+  - Functions:
+    - handleChange(e): Handles changes in form inputs and updates the corresponding state.
+    - handleSubmit(e): Handles form submission. Makes a POST request to add the task to the database.
+      - Navigates to the task list page associated with the event after successful submission.
+
+  - JSX:
+    - Renders form inputs for various task details.
+    - Provides a button to submit the form.
+*/
+
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddTaskForm = () => {
   const { eventId } = useParams();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     month: "",
@@ -15,9 +37,8 @@ const AddTaskForm = () => {
     phone: "",
     notes: "",
     taskID: "",
-    eventID:eventId,
+    eventID: eventId,
   });
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,26 +65,8 @@ const AddTaskForm = () => {
       console.log("Event added successfully");
 
       alert("Task added successfully");
-      
+
       navigate(`/task/${eventId}`);
-    
-
-      // setTimeout(function () {
-      //  window.location.href = "/task/${e.eventID}";
-      // }, 1000);
-
-      // // Optionally reset form after submit
-      // setFormData({
-      //   id: "",
-      //   startDate: "",
-      //   endDate: "",
-      //   time: "",
-      //   eventName: "",
-      //   venue: "",
-      //   city: "",
-      //   contact: "",
-      //   notes: "",
-      // });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -71,24 +74,6 @@ const AddTaskForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="add-task-form">
-      {/* <label>
-        Start Date
-        <input
-          type="date"
-          name="startDate"
-          value={formData.startDate}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        End Date
-        <input
-          type="date"
-          name="endDate"
-          value={formData.endDate}
-          onChange={handleChange}
-        />
-      </label> */}
       <label>
         Month
         <input
@@ -121,17 +106,12 @@ const AddTaskForm = () => {
       </label>
       <label>
         Status
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
+        <select name="status" value={formData.status} onChange={handleChange}>
           <option value="">Select status</option>
           <option value="Not Started">Not Started</option>
           <option value="Pending">Pending</option>
           <option value="In Progress">In Progress</option>
           <option value="Completed">Completed</option>
-          
         </select>
       </label>
       <label>

@@ -1,3 +1,32 @@
+/*
+  This component represents a form for editing existing events. It allows users to modify event details
+  and submit the form to update the event in the database.
+
+  - React, useState, useEffect: Imported from "react" for state management and side effects.
+  - useParams: Imported from "react-router-dom" to access URL parameters.
+
+  - Props:
+    - onSubmit: Function to handle form submission. It should accept the updated event data.
+    - initialData: Initial data for the form fields. It includes details of the event being edited.
+
+  - State:
+    - formData: State variable to store form data including event details.
+
+  - useEffect:
+    - Fetches event data from the server when the component mounts or when the eventId changes.
+    - Sets the event ID in the formData state when the component mounts.
+
+  - Functions:
+    - handleChange(e): Handles changes in form inputs and updates the corresponding state.
+    - handleSubmit(e): Handles form submission. Makes a PUT request to update the event in the database.
+      - Calls onSubmit function with the updated event data.
+      - Navigates to the event list page after successful submission.
+
+  - JSX:
+    - Renders form inputs for various event details.
+    - Provides a button to submit the form.
+*/
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -154,9 +183,10 @@ const EditEventForm = ({ onSubmit, initialData }) => {
           />
         </label>
         <div className="form-buttons">
-        <button  className="EditEvent" type="submit">Submit
-        </button>
-        </div>   
+          <button className="EditEvent" type="submit">
+            Submit
+          </button>
+        </div>
       </form>
     </>
   );

@@ -1,9 +1,30 @@
+/*
+  This component represents a form for adding new events. It allows users to input various
+  details of the event and submit the form to add the event to the database.
+
+  - React, useState: Imported from "react" for state management.
+  - useNavigate: Imported from "react-router-dom" for programmatic navigation.
+
+  - State:
+    - formData: State variable to store form data including event details.
+
+  - Functions:
+    - handleChange(e): Handles changes in form inputs and updates the corresponding state.
+    - handleSubmit(e): Handles form submission. Makes a POST request to add the event to the database.
+      - Navigates to the event list page after successful submission.
+      - Resets the form data after submission.
+
+  - JSX:
+    - Renders form inputs for various event details.
+    - Provides a button to submit the form.
+*/
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddEventForm = () => {
   const navigate = useNavigate();
- 
+
   const [formData, setFormData] = useState({
     id: "",
     startDate: "",

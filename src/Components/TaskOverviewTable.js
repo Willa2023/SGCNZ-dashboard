@@ -1,4 +1,29 @@
-import React, { useState, useEffect } from 'react';
+/*
+  This component represents a table for displaying an overview of tasks grouped by month. It fetches event
+  and task data from the server, then organizes and displays the tasks in a tabular format.
+
+  - React, useState, useEffect: Imported from 'react' for state management and side effects.
+  - Link: Imported from 'react-router-dom' for navigation between different pages.
+
+  - State:
+    - events: State variable to store the list of events fetched from the server.
+    - tasks: State variable to store tasks grouped by event ID.
+    - selectedMonth: State variable to store the currently selected month for filtering tasks.
+
+  - useEffect:
+    - Fetches event data from the server when the component mounts.
+    - Fetches task data for each event and updates the tasks state accordingly.
+
+  - Functions:
+    - handleMonthFilter(month): Updates the selectedMonth state based on the user's month selection.
+
+  - JSX:
+    - Renders a dropdown for selecting a month to filter tasks.
+    - Displays a table with task details grouped by month and event.
+    - Provides links to edit tasks and renders task details such as name, status, and contact.
+*/
+
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function TaskOverviewTable() {
@@ -7,17 +32,19 @@ function TaskOverviewTable() {
   const [selectedMonth, setSelectedMonth] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/Event/printevents')
-      .then(response => response.json())
-      .then(data => {
+    fetch("http://localhost:5000/Event/printevents")
+      .then((response) => response.json())
+      .then((data) => {
         setEvents(data);
         console.log(data);
-        data.forEach(event => {
+        data.forEach((event) => {
           fetch(`http://localhost:5000/Task/printtasks/${event.id}`)
-            .then(response => response.json())
-            .then(taskData => {
-              const sortedTasks = taskData.sort((a, b) => monthOrderMap[a.month] - monthOrderMap[b.month]);
-              setTasks(prevTasks => ({
+            .then((response) => response.json())
+            .then((taskData) => {
+              const sortedTasks = taskData.sort(
+                (a, b) => monthOrderMap[a.month] - monthOrderMap[b.month]
+              );
+              setTasks((prevTasks) => ({
                 ...prevTasks,
                 [event.id]: sortedTasks,
               }));
@@ -49,7 +76,10 @@ function TaskOverviewTable() {
     <div className="task-overview-container">
       <div>
         <h3 className="filter">Filter by Month:</h3>
-        <select onChange={(e) => handleMonthFilter(e.target.value)} className="selector">
+        <select
+          onChange={(e) => handleMonthFilter(e.target.value)}
+          className="selector"
+        >
           <option value="">All</option>
           <option value="January">January</option>
           <option value="February">February</option>
@@ -69,13 +99,15 @@ function TaskOverviewTable() {
         <thead>
           <tr>
             <th>Month</th>
-            {events.map(event => (
-              <th key={event.id} colSpan="3">{event.eventName}</th>
+            {events.map((event) => (
+              <th key={event.id} colSpan="3">
+                {event.eventName}
+              </th>
             ))}
           </tr>
           <tr>
-            <td></td> {/* 空单元格对应月份列 */}
-            {events.map(event => (
+            <td></td>
+            {events.map((event) => (
               <React.Fragment key={`sub-titles-${event.id}`}>
                 <td>Task Name</td>
                 <td>Status</td>
@@ -85,28 +117,37 @@ function TaskOverviewTable() {
           </tr>
         </thead>
         <tbody>
-          {Object.entries(tasks).map(([eventId, eventTasks]) => (
-            eventTasks.map(task => (
-              (!selectedMonth || task.month === selectedMonth) && (
-              <tr key={task.taskID}>
-                <td>{task.month}</td>
-                {events.map(event => (
-                  event.id === eventId
-                  ? <React.Fragment key={`task-details-${event.id}-${task.taskID}`}>
-                      <Link to={`/edittask/${task.taskID}`}>
-                      <td>{task.taskName}</td>
-                      </Link>                    
-                      <td>{task.status}</td>
-                      <td>{task.contact}</td>
-                    </React.Fragment>
-                  : <React.Fragment key={`empty-${event.id}-${task.taskID}`}>
-                      <td></td><td></td><td></td>
-                    </React.Fragment>
-                ))}
-              </tr>
-              )
-            ))
-          ))}
+          {Object.entries(tasks).map(([eventId, eventTasks]) =>
+            eventTasks.map(
+              (task) =>
+                (!selectedMonth || task.month === selectedMonth) && (
+                  <tr key={task.taskID}>
+                    <td>{task.month}</td>
+                    {events.map((event) =>
+                      event.id === eventId ? (
+                        <React.Fragment
+                          key={`task-details-${event.id}-${task.taskID}`}
+                        >
+                          <Link to={`/edittask/${task.taskID}`}>
+                            <td>{task.taskName}</td>
+                          </Link>
+                          <td>{task.status}</td>
+                          <td>{task.contact}</td>
+                        </React.Fragment>
+                      ) : (
+                        <React.Fragment
+                          key={`empty-${event.id}-${task.taskID}`}
+                        >
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </React.Fragment>
+                      )
+                    )}
+                  </tr>
+                )
+            )
+          )}
         </tbody>
       </table>
     </div>

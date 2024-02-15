@@ -1,3 +1,33 @@
+/*
+  This component renders a table of tasks associated with a specific event.
+  It displays task details such as month, contact name, task name, status, email, phone, and notes.
+  It also provides options to add, edit, and delete tasks.
+
+  - React: Imported from 'react' for building UI components.
+  - Link, useParams: Imported from 'react-router-dom' for navigation between different pages and accessing URL parameters.
+  - TaskRow: Imported component representing a row in the task table.
+
+  - State:
+    - tasks: Array containing task objects fetched from the server.
+    - deletedId: State variable to track the ID of the task that was deleted.
+    - eventTitle: State variable to store the title of the event associated with the tasks.
+
+  - Effects:
+    - useEffect to fetch event data when the component mounts or when the eventId changes.
+    - useEffect to fetch task data when the component mounts or when the deletedId changes.
+
+  - Functions:
+    - fetchEventData: Function to fetch event data based on the eventId.
+    - fetchTasks: Function to fetch task data associated with the eventId.
+    - onDelete: Function to handle the deletion of a task.
+    - monthOrderMap: Object mapping month names to their numerical order.
+
+  - JSX:
+    - Renders a table with headers for task details.
+    - Maps through the tasks array and renders TaskRow components for each task.
+    - Provides a button to add a new task for the event.
+*/
+
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { TaskRow } from "./TaskRow";
@@ -34,7 +64,7 @@ const TaskTable = () => {
     fetchEventData(eventId); // Pass eventId as an argument here
   }, [eventId]);
 
-  // 定义fetchTasks函数，用于获取任务数据
+  // Define the fetchTasks function for fetching task data
   const fetchTasks = async () => {
     try {
       const response = await fetch(
@@ -58,10 +88,10 @@ const TaskTable = () => {
     }
   };
 
-  // 使用useEffect钩子来初始化和更新任务数据
+  // Using useEffect hooks to initialize and update task data
   useEffect(() => {
     fetchTasks();
-  }, [eventId]); // 当eventId改变时，重新加载数据
+  }, [eventId]); // Reload data when eventId changes
 
   const onDelete = async (taskID) => {
     const confirmDelete = window.confirm("Are you sure to delete this item?");
@@ -86,7 +116,7 @@ const TaskTable = () => {
         }
         console.log("Task deleted successfully");
         setDeletedId(taskID);
-        // 直接调用fetchTasks而不是设置deletedId，以重新加载更新后的任务列表
+        //Call fetchTasks directly instead of setting the deletedId to reload the updated task list
         fetchTasks();
       } catch (error) {
         console.error("Error:", error);
@@ -97,17 +127,6 @@ const TaskTable = () => {
   useEffect(() => {
     fetchTasks();
   }, [deletedId]);
-
-  // const handleUpdateTask = (updatedTask) => {
-  //   // Logic to update the task in the state or backend
-  //   console.log(updatedTask);
-  //   // ... rest of the update logic
-  // };
-
-  // const handleAddTask = () => {
-  //   // 假设跳转到添加任务的页面
-  //   navigate(`/tasks/add/${eventId}`);
-  // };
 
   const monthOrderMap = {
     January: 1,
@@ -123,13 +142,6 @@ const TaskTable = () => {
     November: 11,
     December: 12,
   };
-
-  // const handleSort = () => {
-  //   const temp = [...tasks]; // 创建事件的临时副本
-  //   // 比较函数根据月份顺序排序
-  //   temp.sort((a, b) => monthOrderMap[a.month] - monthOrderMap[b.month]);
-  //   setTasks(temp);
-  // };
 
   return (
     <div className="parent-container">

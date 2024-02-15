@@ -1,3 +1,35 @@
+/*
+  This file contains the EventController class, which defines the endpoints and logic for handling event-related operations.
+
+  - Libraries:
+    - MySql.Data.MySqlClient: Used for interacting with MySQL database.
+    - OfficeOpenXml: Used for reading Excel files.
+
+  - Class Attributes:
+    - ApiController: Indicates that this class handles HTTP API requests.
+    - Route("[controller]"): Specifies the base route for the controller, which is "/Event".
+
+  - Attributes:
+    - awsRdsEndpoint: Endpoint for the AWS RDS database.
+    - awsRdsDatabase: Name of the AWS RDS database.
+    - awsRdsUsername: Username for accessing the AWS RDS database.
+    - awsRdsPassword: Password for accessing the AWS RDS database.
+
+  - Methods:
+    1. ReadEventFile(): Scans an Excel spreadsheet, creates Event objects from it, and returns an array of Events.
+    2. SaveEventsToDatabase(List<Event> events): Saves a list of events to the MySQL database.
+    3. ReadEventsFromDatabase(): Retrieves events from the MySQL database.
+    4. GetEventById(string id): Retrieves a specific event by its ID from the MySQL database.
+    5. callSaveMethods(): Endpoint to call SaveEventsToDatabase method ("IT WORKS...").
+    6. EditEvent([FromBody] Event eventData): Edits an existing event in the MySQL database.
+    7. DeleteEvent(string id): Deletes an event from the MySQL database by its ID.
+    8. AddEventToDatabase([FromBody] Event eventData): Adds a new event to the MySQL database.
+
+  - Event object:
+    - Defined using the record keyword.
+    - Contains properties: Id, StartDate, EndDate, Time, EventName, Venue, City, Contact, Notes.
+*/
+
 using MySql.Data.MySqlClient;
 using OfficeOpenXml;
 using System;

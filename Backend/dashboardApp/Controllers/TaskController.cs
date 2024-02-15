@@ -1,3 +1,35 @@
+/*
+  This file contains the TaskController class, which defines the endpoints and logic for handling task-related operations.
+
+  - Libraries:
+    - MySql.Data.MySqlClient: Used for interacting with MySQL database.
+    - OfficeOpenXml: Used for reading Excel files.
+
+  - Class Attributes:
+    - ApiController: Indicates that this class handles HTTP API requests.
+    - Route("[controller]"): Specifies the base route for the controller, which is "/Task".
+
+  - Attributes:
+    - awsRdsEndpoint: Endpoint for the AWS RDS database.
+    - awsRdsDatabase: Name of the AWS RDS database.
+    - awsRdsUsername: Username for accessing the AWS RDS database.
+    - awsRdsPassword: Password for accessing the AWS RDS database.
+
+  - Methods:
+    1. ReadTaskFile(): Scans an Excel spreadsheet, creates Task objects from it, and returns an array of Tasks.
+    2. SaveTaskstoDatabase(List<Task> tasks): Saves a list of tasks to the MySQL database.
+    3. ReadTasksFromDatabase(string Id): Retrieves tasks associated with a specific event from the MySQL database.
+    4. GetTaskById(string taskId): Retrieves a specific task by its ID from the MySQL database.
+    5. callSaveMethods(): Endpoint to call SaveTaskstoDatabase method ("IT WORKS...").
+    6. EditTask([FromBody] Task taskData): Edits an existing task in the MySQL database.
+    7. DeleteTask(string id): Deletes a task from the MySQL database by its ID.
+    8. AddTaskToDatabase([FromBody] Task taskdata): Adds a new task to the MySQL database.
+
+  - Task object:
+    - Defined using the record keyword.
+    - Contains properties: month, contact, taskName, status, email, phone, notes, taskID, eventID.
+*/
+
 using MySql.Data.MySqlClient;
 using OfficeOpenXml;
 using System;

@@ -1,3 +1,37 @@
+/*
+  This component represents a table of events. It fetches events from the server,
+  allows sorting by start date, and provides options to filter events by year.
+  
+  - React, useState, useEffect: Imported from "react" for state management and side effects.
+  - Link: Imported from "react-router-dom" for navigation.
+  - EventRow: Imported from "./EventRow" for rendering individual event rows.
+  
+  - useState:
+    - events: State variable to store the list of events.
+    - deletedId: State variable to keep track of the ID of the event deleted.
+    - selectedYear: State variable to store the selected year for filtering events.
+
+  - handleYearChange(event):
+    - Handles changes in the selected year filter.
+
+  - fetchEvents():
+    - Fetches events from the server.
+    
+  - onDelete(id):
+    - Handles deletion of an event.
+    
+  - useEffect:
+    - Calls fetchEvents() when the component mounts or when an event is deleted.
+
+  - handleSort():
+    - Handles sorting of events based on start date.
+
+  - JSX:
+    - Renders a table of events with headers and rows.
+    - Provides buttons for adding events and a dropdown for filtering by year.
+    - Maps through events to render individual event rows.
+*/
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { EventRow } from "./EventRow";
@@ -71,9 +105,9 @@ const EventTable = () => {
       <div className="EventTable">
         <h2>Event List</h2>
         <div className="rowC">
-        <Link to={`/addevent`}>
-          <button className="AddEvent">Add Event</button>
-        </Link>
+          <Link to={`/addevent`}>
+            <button className="AddEvent">Add Event</button>
+          </Link>
           <label htmlFor="yearSelect">Select Year: </label>
           <select
             id="yearSelect"
@@ -98,8 +132,10 @@ const EventTable = () => {
           <thead>
             <tr>
               {/* <th>Id</th> */}
-              
-              <th onClick={handleSort} id="startDateEventth">Start Date</th>
+
+              <th onClick={handleSort} id="startDateEventth">
+                Start Date
+              </th>
               <th>End Date</th>
               <th>Time</th>
               <th>Event Name</th>
